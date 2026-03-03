@@ -8,8 +8,8 @@
         "about-us": "About Us",
         "project-team": "Project team",
         "seth-tay": "Seth Tay",
-        "jane-doe": "Jane Doe",
-        "johnny-doe": "Johnny Doe",
+        "tan-je-deon": "Tan Je-Deon",
+        "luke-tan": "Luke Tan",
         "jolyn-toh": "Jolyn Toh",
         "lim-zi-yang": "Lim Zi Yang"
       },
@@ -140,6 +140,14 @@
       "title": "John Doe's Project Portfolio Page",
       "headings": {
         "project-addressbook-level-3": "Project: AddressBook Level 3"
+      },
+      "headingKeywords": {}
+    },
+    {
+      "src": "team/momentumnn.md",
+      "title": "Je-Deon's Project Portfolio Page",
+      "headings": {
+        "project-ptcoach": "Project: PTCoach"
       },
       "headingKeywords": {}
     }
