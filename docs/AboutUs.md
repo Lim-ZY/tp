@@ -1,13 +1,34 @@
 ---
-layout: page
-title: About Us
+  layout: default.md
+  title: "About Us"
 ---
 
-We are a team based in the [School of Computing, National University of Singapore](https://www.comp.nus.edu.sg).
+# About Us
+
+We are a team based in the [School of Computing, National University of Singapore](http://www.comp.nus.edu.sg).
 
 You can reach us at the email `seer[at]comp.nus.edu.sg`
 
 ## Project team
+
+### Seth Tay
+
+<img src="images/choppyback.png" width="200px">
+
+[[github](https://github.com/choppyback)]
+
+* Role: Testing
+* Responsibilities: Ensure all code is tested
+
+### Tan Je-Deon
+
+<img src="images/momentumnn.png" width="200px">
+
+[[github](http://github.com/momentumnn)]
+[[portfolio](team/momentumnn.md)]
+
+* Role: Code quality
+* Responsibilities: Storage
 
 ### Luke Tan
 
@@ -18,41 +39,20 @@ You can reach us at the email `seer[at]comp.nus.edu.sg`
 * Role: Deliverables and deadlines
 * Responsibilities: Ensure project deliverables are done on time and in the right format.
 
-### Jane Doe
+### Jolyn Toh
 
-<img src="images/johndoe.png" width="200px">
+<img src="images/jolyntmj.png" width="200px">
 
-[[github](http://github.com/johndoe)]
-[[portfolio](team/johndoe.md)]
+[[github](http://github.com/jolyntmj)]
 
-* Role: Team Lead
-* Responsibilities: UI
+* Role: Team lead
+* Responsibilities: Coordinate project milestones, manage team progress, and ensure smooth collaboration and code quality across the team.
 
-### Johnny Doe
+### Lim Zi Yang
 
-<img src="images/johndoe.png" width="200px">
+<img src="images/lim-zy.png" width="200px">
 
-[[github](http://github.com/johndoe)] [[portfolio](team/johndoe.md)]
+[[github](http://github.com/lim-zy)]
 
-* Role: Developer
-* Responsibilities: Data
-
-### Jean Doe
-
-<img src="images/johndoe.png" width="200px">
-
-[[github](http://github.com/johndoe)]
-[[portfolio](team/johndoe.md)]
-
-* Role: Developer
-* Responsibilities: Dev Ops + Threading
-
-### James Doe
-
-<img src="images/johndoe.png" width="200px">
-
-[[github](http://github.com/johndoe)]
-[[portfolio](team/johndoe.md)]
-
-* Role: Developer
-* Responsibilities: UI
+* Role: Integration
+* Responsibilities: In charge of versioning of the code, integrating various parts of the software to create a whole.
