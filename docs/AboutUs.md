@@ -30,14 +30,14 @@ You can reach us at the email `seer[at]comp.nus.edu.sg`
 * Role: Code quality
 * Responsibilities: Storage
 
-### Johnny Doe
+### Luke Tan
 
-<img src="images/johndoe.png" width="200px">
+<img src="images/bingmybongg.png" width="200px">
 
-[[github](http://github.com/johndoe)] [[portfolio](team/johndoe.md)]
+[[github](https://github.com/bingmybongg)]
 
-* Role: Developer
-* Responsibilities: Data
+* Role: Deliverables and deadlines
+* Responsibilities: Ensure project deliverables are done on time and in the right format.
 
 ### Jolyn Toh
 
