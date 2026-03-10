@@ -5,7 +5,7 @@ import static seedu.address.commons.util.AppUtil.checkArgument;
 
 /**
  * Represents a Person's address in the address book.
- * Guarantees: immutable; is valid as declared in {@link #isValidAddress(String)}
+ * Guarantees: immutable; is valid as declared in {@link #isValidProgress(String)}
  */
 public class ProgressRecord {
 
@@ -31,7 +31,7 @@ public class ProgressRecord {
     }
 
     /**
-     * Returns true if a given string is a valid email.
+     * Returns true if a given string is a valid progress.
      */
     public static boolean isValidProgress(String test) {
         return test.matches(VALIDATION_REGEX);
