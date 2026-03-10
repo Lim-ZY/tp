@@ -91,7 +91,7 @@ public class ParserUtil {
         requireNonNull(availability);
         String trimmedAvailability = availability.trim();
         if (!Availability.isValidAvailability(trimmedAvailability)) {
-            throw new ParseException(Address.MESSAGE_CONSTRAINTS);
+            throw new ParseException(Availability.MESSAGE_CONSTRAINTS);
         }
         return new Availability(trimmedAvailability);
     }
