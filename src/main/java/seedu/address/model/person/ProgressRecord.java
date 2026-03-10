@@ -8,13 +8,13 @@ import static seedu.address.commons.util.AppUtil.checkArgument;
  */
 public class ProgressRecord {
 
-    public static final String MESSAGE_CONSTRAINTS = "Progress Records should contain a float, and is optional";
+    public static final String MESSAGE_CONSTRAINTS = "Progress Records should be with 0% to 100%";
 
     /*
      * Validates that data is either a percentage.
      * Example: 5%, 0.001%, 100%
      */
-    public static final String VALIDATION_REGEX = "^(?:(?:\\d|[1-9]\\d)(?:\\.\\d+)?|100(?:\\.0+)?)\\s?%$";
+    public static final String VALIDATION_REGEX = "^((100((\\.|,)[0-9]{1,2})?)|([0-9]{1,2}((\\.|,)[0-9]{0,2})?))%$";
 
     public final String value;
 
@@ -23,7 +23,7 @@ public class ProgressRecord {
      *
      */
     public ProgressRecord() {
-        value = "0%";
+        this("0%");
     }
 
     /**
