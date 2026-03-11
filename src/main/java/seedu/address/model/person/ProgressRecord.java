@@ -17,15 +17,6 @@ public class ProgressRecord {
     public static final String VALIDATION_REGEX = "^((100((\\.|,)[0-9]{1,2})?)|([0-9]{1,2}((\\.|,)[0-9]{0,2})?))%$";
 
     public final String value;
-
-    /**
-     * Constructs an empty {@code ProgressRecord}.
-     *
-     */
-    public ProgressRecord() {
-        this("0%");
-    }
-
     /**
      * Constructs a {@code ProgressRecord}.
      *

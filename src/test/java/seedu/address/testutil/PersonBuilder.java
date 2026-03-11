@@ -38,7 +38,7 @@ public class PersonBuilder {
         email = new Email(DEFAULT_EMAIL);
         address = new Address(DEFAULT_ADDRESS);
         tags = new HashSet<>();
-        progressRecord = new ProgressRecord();
+        progressRecord = new ProgressRecord(ProgressRecord.DEFAULT_PROGRESS);
     }
 
     /**
