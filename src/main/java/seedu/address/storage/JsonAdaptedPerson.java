@@ -99,8 +99,8 @@ class JsonAdaptedPerson {
         if (!TrainingGoal.isValidTrainingGoal(trainingGoal)) {
             throw new IllegalValueException(TrainingGoal.MESSAGE_CONSTRAINTS);
         }
+
         final TrainingGoal modelTrainingGoal = new TrainingGoal(trainingGoal);
-      
         if (availability == null) {
             throw new IllegalValueException(String.format(MISSING_FIELD_MESSAGE_FORMAT,
                     Availability.class.getSimpleName()));

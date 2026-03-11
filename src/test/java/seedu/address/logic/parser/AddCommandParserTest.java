@@ -26,7 +26,6 @@ import static seedu.address.logic.commands.CommandTestUtil.VALID_AVAILABILITY_BO
 import static seedu.address.logic.commands.CommandTestUtil.VALID_EMAIL_BOB;
 import static seedu.address.logic.commands.CommandTestUtil.VALID_NAME_BOB;
 import static seedu.address.logic.commands.CommandTestUtil.VALID_PHONE_BOB;
-import static seedu.address.logic.commands.CommandTestUtil.VALID_TRAINING_GOAL_AMY;
 import static seedu.address.logic.commands.CommandTestUtil.VALID_TRAINING_GOAL_BOB;
 import static seedu.address.logic.parser.CliSyntax.PREFIX_ADDRESS;
 import static seedu.address.logic.parser.CliSyntax.PREFIX_AVAILABILITY;
@@ -92,7 +91,7 @@ public class AddCommandParserTest {
         // multiple training goal
         assertParseFailure(parser, TRAINING_GOAL_DESC_AMY + validExpectedPersonString,
                 Messages.getErrorMessageForDuplicatePrefixes(PREFIX_TRAINING_GOAL));
-      
+
         // multiple fields repeated
         assertParseFailure(parser,
                 validExpectedPersonString + PHONE_DESC_AMY + EMAIL_DESC_AMY + NAME_DESC_AMY + ADDRESS_DESC_AMY
@@ -210,10 +209,10 @@ public class AddCommandParserTest {
         // invalid address
         assertParseFailure(parser, NAME_DESC_BOB + PHONE_DESC_BOB + EMAIL_DESC_BOB + INVALID_ADDRESS_DESC
                 + TRAINING_GOAL_DESC_BOB + AVAILABILITY_DESC_BOB, Address.MESSAGE_CONSTRAINTS);
-      
+
         // invalid availability
         assertParseFailure(parser, NAME_DESC_BOB + PHONE_DESC_BOB + EMAIL_DESC_BOB + ADDRESS_DESC_BOB
-                + TRAINING_GOAL_DESC_BOB + INVALID_AVAILABILITY_DESC + TAG_DESC_HUSBAND + TAG_DESC_FRIEND, Availability.MESSAGE_CONSTRAINTS);
+                + TRAINING_GOAL_DESC_BOB + INVALID_AVAILABILITY_DESC, Availability.MESSAGE_CONSTRAINTS);
 
         // invalid training goal
         assertParseFailure(parser, NAME_DESC_BOB + PHONE_DESC_BOB + EMAIL_DESC_BOB + ADDRESS_DESC_BOB

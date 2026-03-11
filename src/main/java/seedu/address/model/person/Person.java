@@ -25,9 +25,10 @@ public class Person {
     /**
      * Every field must be present and not null.
      */
-    public Person(Name name, Phone phone, Email email, Address address, TrainingGoal trainingGoal, Availability availability) {
+    public Person(Name name, Phone phone, Email email, Address address,
+                  TrainingGoal trainingGoal, Availability availability) {
         requireAllNonNull(name, phone, email, address, trainingGoal, availability);
-      
+
         this.name = name;
         this.phone = phone;
         this.email = email;
@@ -55,7 +56,7 @@ public class Person {
     public TrainingGoal getTrainingGoal() {
         return trainingGoal;
     }
-  
+
     public Availability getAvailability() {
         return availability;
     }

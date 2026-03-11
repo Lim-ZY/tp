@@ -52,7 +52,6 @@ public class PersonUtil {
                                                     .append(trainingGoal.value).append(" "));
         descriptor.getAvailability().ifPresent(avail -> sb.append(PREFIX_AVAILABILITY)
                                                     .append(avail.value).append(" "));
-      
         return sb.toString();
     }
 }

@@ -10,7 +10,7 @@ import static seedu.address.logic.commands.CommandTestUtil.VALID_AVAILABILITY_BO
 import static seedu.address.logic.commands.CommandTestUtil.VALID_EMAIL_BOB;
 import static seedu.address.logic.commands.CommandTestUtil.VALID_NAME_BOB;
 import static seedu.address.logic.commands.CommandTestUtil.VALID_PHONE_BOB;
-import static seedu.address.logic.commands.CommandTestUtil.VALID_TRAINING_GOAL_AMY;
+import static seedu.address.logic.commands.CommandTestUtil.VALID_TRAINING_GOAL_BOB;
 
 import org.junit.jupiter.api.Test;
 
@@ -58,7 +58,7 @@ public class EditPersonDescriptorTest {
         assertFalse(DESC_AMY.equals(editedAmy));
 
         // different tags -> returns false
-        editedAmy = new EditPersonDescriptorBuilder(DESC_AMY).withTrainingGoal(VALID_TRAINING_GOAL_AMY).build();
+        editedAmy = new EditPersonDescriptorBuilder(DESC_AMY).withTrainingGoal(VALID_TRAINING_GOAL_BOB).build();
         assertFalse(DESC_AMY.equals(editedAmy));
     }
 

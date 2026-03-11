@@ -103,8 +103,8 @@ public class EditCommand extends Command {
                                             .orElse(personToEdit.getTrainingGoal());
         Availability updatedAvailability = editPersonDescriptor.getAvailability()
                 .orElse(personToEdit.getAvailability());
-      
-        return new Person(updatedName, updatedPhone, updatedEmail, updatedAddress, updatedTrainingGoal, updatedAvailability);
+        return new Person(updatedName, updatedPhone, updatedEmail,
+                updatedAddress, updatedTrainingGoal, updatedAvailability);
     }
 
     @Override
@@ -200,11 +200,11 @@ public class EditCommand extends Command {
         public void setTrainingGoal(TrainingGoal trainingGoal) {
             this.trainingGoal = trainingGoal;
         }
-      
+
         public Optional<TrainingGoal> getTrainingGoal() {
             return Optional.ofNullable(trainingGoal);
         }
-      
+
         public void setAvailability(Availability availability) {
             this.availability = availability;
         }
