@@ -53,4 +53,20 @@ public class ProgressRecordTest {
         // different values -> returns false
         assertFalse(pr.equals(new ProgressRecord("100%")));
     }
+
+    @Test
+    public void compareTo() {
+        ProgressRecord pr0 = new ProgressRecord("0%");
+        ProgressRecord pr50 = new ProgressRecord("50%");
+        ProgressRecord pr100 = new ProgressRecord("100%");
+
+        assertTrue(pr0.compareTo(pr50) < 0);
+        assertTrue(pr100.compareTo(pr0) > 0);
+        assertFalse(pr0.compareTo(pr50) == 0);
+        assertFalse(pr100.compareTo(pr0) < 0);
+
+        // test null
+        assertTrue(pr0.compareTo(null) == 0);
+
+    }
 }
