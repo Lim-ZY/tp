@@ -30,20 +30,45 @@ public class ProgressRecord implements Comparable<ProgressRecord> {
     public ProgressRecord(String progress) {
         requireNonNull(progress);
         checkArgument(isValidProgress(progress), MESSAGE_CONSTRAINTS);
-        checkArgument(stringToDouble(progress) <= 100, MESSAGE_CONSTRAINTS);
         value = progress;
     }
 
-    public static Double stringToDouble(String s) {
-        return Double.parseDouble(s.replace("%", ""));
-    }
     /**
      * Returns true if a given string is a valid progress.
      */
     public static boolean isValidProgress(String test) {
-        return test.matches(VALIDATION_REGEX);
+        requireNonNull(test);
+        // 1. Check if it matches the general format first
+        if (!test.matches(VALIDATION_REGEX)) {
+            return false;
+        }
+
+        // 2. Convert to numeric value and check the 100% boundary
+        try {
+            double numericValue = parseToPercentage(test);
+            return numericValue >= 0 && numericValue <= 100;
+        } catch (NumberFormatException | ArithmeticException e) {
+            return false;
+        }
     }
 
+    /**
+     * Helper to convert both "50%" and "1/2" formats into a double percentage value.
+     */
+    private static double parseToPercentage(String s) {
+        if (s.contains("%")) {
+            return Double.parseDouble(s.replace("%", "").replace(",", "."));
+        } else if (s.contains("/")) {
+            String[] parts = s.split("/");
+            double numerator = Double.parseDouble(parts[0]);
+            double denominator = Double.parseDouble(parts[1]);
+            if (denominator == 0) {
+                throw new ArithmeticException("Division by zero");
+            }
+            return (numerator / denominator) * 100;
+        }
+        return Double.parseDouble(s);
+    }
     @Override
     public String toString() {
         return value;
@@ -82,8 +107,8 @@ public class ProgressRecord implements Comparable<ProgressRecord> {
             return 0;
         }
         ProgressRecord otherProgress = (ProgressRecord) other;
-        Double thisValue = Double.parseDouble(value.replace("%", ""));
-        Double otherValue = Double.parseDouble(otherProgress.value.replace("%", ""));
+        double thisValue = parseToPercentage(value);
+        double otherValue = parseToPercentage(otherProgress.value);
         if (thisValue < otherValue) {
             return -1;
         } else if (thisValue > otherValue) {
