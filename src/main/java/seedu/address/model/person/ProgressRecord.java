@@ -55,7 +55,7 @@ public class ProgressRecord implements Comparable<ProgressRecord> {
     /**
      * Helper to convert both "50%" and "1/2" formats into a double percentage value.
      */
-    private static double parseToPercentage(String s) {
+    static double parseToPercentage(String s) {
         if (s.contains("%")) {
             return Double.parseDouble(s.replace("%", "").replace(",", "."));
         } else if (s.contains("/")) {

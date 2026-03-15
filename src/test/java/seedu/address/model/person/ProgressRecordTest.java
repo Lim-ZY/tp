@@ -35,6 +35,17 @@ public class ProgressRecordTest {
     }
 
     @Test
+    public void parseToPercentage() {
+        //divide by zero
+        assertThrows(ArithmeticException.class, () -> ProgressRecord.parseToPercentage("1/0"));
+
+        assertTrue(ProgressRecord.parseToPercentage("50%") == 50.0);
+        assertTrue(ProgressRecord.parseToPercentage("1/2") == 50.0);
+        assertTrue(ProgressRecord.parseToPercentage("100%") == 100.0);
+        assertTrue(ProgressRecord.parseToPercentage("0%") == 0.0);
+    }
+
+    @Test
     public void equals() {
         ProgressRecord pr = new ProgressRecord("0%");
 
