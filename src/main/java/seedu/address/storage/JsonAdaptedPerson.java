@@ -150,7 +150,7 @@ class JsonAdaptedPerson {
         }
         final ProgressRecord modelProgressRecord = new ProgressRecord(progressRecord);
         return new Person(modelName, modelPhone, modelEmail, modelAddress, modelInjuryStatus, modelTrainingGoal,
-                modelAvailability, modelSkill, modelProgressRecord);
+                modelAvailability, modelProgressRecord, modelSkill);
     }
 
 }

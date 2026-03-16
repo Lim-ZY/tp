@@ -7,6 +7,7 @@ import static seedu.address.logic.parser.CliSyntax.PREFIX_EMAIL;
 import static seedu.address.logic.parser.CliSyntax.PREFIX_INJURY_STATUS;
 import static seedu.address.logic.parser.CliSyntax.PREFIX_NAME;
 import static seedu.address.logic.parser.CliSyntax.PREFIX_PHONE;
+import static seedu.address.logic.parser.CliSyntax.PREFIX_SKILL;
 import static seedu.address.logic.parser.CliSyntax.PREFIX_TRAINING_GOAL;
 import static seedu.address.model.Model.PREDICATE_SHOW_ALL_PERSONS;
 
@@ -28,6 +29,7 @@ import seedu.address.model.person.Name;
 import seedu.address.model.person.Person;
 import seedu.address.model.person.Phone;
 import seedu.address.model.person.ProgressRecord;
+import seedu.address.model.person.Skill;
 import seedu.address.model.person.TrainingGoal;
 
 /**
@@ -45,9 +47,10 @@ public class EditCommand extends Command {
             + "[" + PREFIX_PHONE + "PHONE] "
             + "[" + PREFIX_EMAIL + "EMAIL] "
             + "[" + PREFIX_ADDRESS + "ADDRESS] "
-            + "[" + PREFIX_INJURY_STATUS + "INJURY_STATUS] "
+            + "[" + PREFIX_AVAILABILITY + "AVAILABILITY]"
             + "[" + PREFIX_TRAINING_GOAL + "TRAINING GOAL] "
-            + "[" + PREFIX_AVAILABILITY + "AVAILABILITY]\n"
+            + "[" + PREFIX_INJURY_STATUS + "INJURY_STATUS] "
+            + "[" + PREFIX_SKILL + "SKILL]\n"
             + "Example: " + COMMAND_WORD + " 1 "
             + PREFIX_PHONE + "91234567 "
             + PREFIX_EMAIL + "johndoe@example.com";
@@ -111,8 +114,12 @@ public class EditCommand extends Command {
                 .orElse(personToEdit.getAvailability());
         ProgressRecord updatedProgressRecord = editPersonDescriptor.getProgressRecord()
                 .orElse(personToEdit.getProgressRecord());
+        Skill updatedSkill = editPersonDescriptor.getSkill()
+                .orElse(personToEdit.getSkill());
+
         return new Person(updatedName, updatedPhone, updatedEmail,
-                updatedAddress, updatedInjuryStatus, updatedTrainingGoal, updatedAvailability, updatedProgressRecord);
+                updatedAddress, updatedInjuryStatus, updatedTrainingGoal, updatedAvailability, updatedProgressRecord,
+                updatedSkill);
     }
 
     @Override
@@ -152,6 +159,7 @@ public class EditCommand extends Command {
         private TrainingGoal trainingGoal;
         private Availability availability;
         private ProgressRecord progressRecord;
+        private Skill skill;
 
         public EditPersonDescriptor() {}
 
@@ -168,13 +176,15 @@ public class EditCommand extends Command {
             setTrainingGoal(toCopy.trainingGoal);
             setAvailability(toCopy.availability);
             setProgressRecord(toCopy.progressRecord);
+            setSkill(toCopy.skill);
         }
 
         /**
          * Returns true if at least one field is edited.
          */
         public boolean isAnyFieldEdited() {
-            return CollectionUtil.isAnyNonNull(name, phone, email, address, injuryStatus, trainingGoal, availability);
+            return CollectionUtil.isAnyNonNull(name, phone, email, address, injuryStatus,
+                    trainingGoal, availability, progressRecord, skill);
         }
 
         public void setName(Name name) {
@@ -241,6 +251,14 @@ public class EditCommand extends Command {
             return Optional.ofNullable(progressRecord);
         }
 
+        public void setSkill(Skill skill) {
+            this.skill = skill;
+        }
+
+        public Optional<Skill> getSkill() {
+            return Optional.ofNullable(skill);
+        }
+
         @Override
         public boolean equals(Object other) {
             if (other == this) {
@@ -260,7 +278,8 @@ public class EditCommand extends Command {
                     && Objects.equals(injuryStatus, otherEditPersonDescriptor.injuryStatus)
                     && Objects.equals(trainingGoal, otherEditPersonDescriptor.trainingGoal)
                     && Objects.equals(availability, otherEditPersonDescriptor.availability)
-                    && Objects.equals(progressRecord, otherEditPersonDescriptor.progressRecord);
+                    && Objects.equals(progressRecord, otherEditPersonDescriptor.progressRecord)
+                    && Objects.equals(skill, otherEditPersonDescriptor.skill);
         }
 
         @Override
@@ -273,6 +292,7 @@ public class EditCommand extends Command {
                     .add("injuryStatus", injuryStatus)
                     .add("trainingGoal", trainingGoal)
                     .add("availability", availability)
+                    .add("skill", skill)
                     .toString();
         }
 
