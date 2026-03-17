@@ -74,7 +74,7 @@ public class PersonCard extends UiPart<Region> {
             skill.getStyleClass().add("skill-intermediate");
             break;
         case Skill.SKILL_EXPERT:
-            skill.getStyleClass().add("skill-advanced");
+            skill.getStyleClass().add("skill-expert");
             break;
         default:
             skill.getStyleClass().add("skill-beginner");
