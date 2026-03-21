@@ -22,7 +22,7 @@ public class Timeslot implements Comparable<Timeslot> {
      * - Single Slot: day:time-time | day:slotNumber
      * - Full String: single slot followed by optionally more (,slot)
      */
-    private static final String SLOT_REGEX = "((0[8-9]|1[0-9])00-(0[9]|1[0-9]|20)00)|([1-9]|1[0-2])";
+    private static final String SLOT_REGEX = "(((0[8-9]|1[0-9])00-(0[9]|1[0-9]|20)00)|([1-9]|1[0-2]))";
     private static final String DAY_REGEX = "(?i)(mon|tue|wed|thu|fri|sat|sun)";
     private static final String SINGLE_TIMESLOT_REGEX = "^" + DAY_REGEX + ":" + SLOT_REGEX + "(," + SLOT_REGEX + ")*";
 
