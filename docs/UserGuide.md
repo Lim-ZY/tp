@@ -31,7 +31,7 @@ PTcoach is a **desktop app for managing client contacts, optimized for use via a
 
    * `list` : Lists all contacts.
 
-   * `add n/John Doe p/98765432 e/johnd@example.com a/John street, block 123, #01-01 t/run 100km av/MON:1000-1100,0800-0900` : Adds a contact named `John Doe` to the Address Book.
+   * `add n/John Doe p/98765432 e/johnd@example.com a/John street, block 123, #01-01 ts/mon:1 t/run 100km av/MON:1000-1100,0800-0900` : Adds a contact named `John Doe` to the Address Book.
 
    * `delete 3` : Deletes the 3rd contact shown in the current list.
 
@@ -80,7 +80,7 @@ Format: `help`
 
 Adds a person to the address book.
 
-Format: `add n/NAME p/PHONE_NUMBER e/EMAIL a/ADDRESS av/AVAILABILITY t/TRAINING_GOAL [pr/PROGRESS_RECORD] [i/INJURY_STATUS] [s/SKILL]`
+Format: `add n/NAME p/PHONE_NUMBER e/EMAIL a/ADDRESS av/AVAILABILITY ts/TIMESLOT t/TRAINING_GOAL [pr/PROGRESS_RECORD] [i/INJURY_STATUS] [s/SKILL]`
 
 [//]: # (<box type="tip" seamless>)
 
@@ -88,8 +88,8 @@ Format: `add n/NAME p/PHONE_NUMBER e/EMAIL a/ADDRESS av/AVAILABILITY t/TRAINING_
 [//]: # (</box>)
 
 Examples:
-* `add n/John Doe p/98765432 e/johnd@example.com a/John street, block 123, #01-01 t/run 50km av/mon:0800-0900 i/shoulder dislocate`
-* `add n/Betsy Crowe e/betsycrowe@example.com a/Newgate Prison p/1234567 t/lift 100kg av/mon:0900-1000;tue:1000-1100`
+* `add n/John Doe p/98765432 e/johnd@example.com a/John street, block 123, #01-01 ts/mon:1,2 t/run 50km av/mon:0800-0900 i/shoulder dislocate`
+* `add n/Betsy Crowe e/betsycrowe@example.com a/Newgate Prison p/1234567 ts/mon:1,3;sat:2,4 t/lift 100kg av/mon:0900-1000;tue:1000-1100`
 
 ### Listing all persons : `list`
 
@@ -101,7 +101,7 @@ Format: `list`
 
 Edits an existing person in the address book.
 
-Format: `edit INDEX [n/NAME] [p/PHONE] [e/EMAIL] [a/ADDRESS] [av/AVAILABILITY] [t/TRAINING GOAL] [pr/PROGRESS_RECORD] [i/INJURY_STATUS] [s/SKILL]`
+Format: `edit INDEX [n/NAME] [p/PHONE] [e/EMAIL] [a/ADDRESS] [av/AVAILABILITY] [ts/TIMESLOT] [t/TRAINING GOAL] [pr/PROGRESS_RECORD] [i/INJURY_STATUS] [s/SKILL]`
 
 * Edits the person at the specified `INDEX`. The index refers to the index number shown in the displayed person list. The index **must be a positive integer** 1, 2, 3, …​
 * At least one of the optional fields must be provided.
@@ -198,10 +198,10 @@ _Details coming soon ..._
 
 Action     | Format, Examples
 -----------|----------------------------------------------------------------------------------------------------------------------------------------------------------------------
-**Add**    | `add n/NAME p/PHONE_NUMBER e/EMAIL a/ADDRESS t/TRAINING_GOAL av/AVAILABILITY [i/INJURY_STATUS] [s/SKILL] [pr/PROGRESS_RECORD]` <br> e.g., `add n/James Ho p/22224444 e/jamesho@example.com a/123, Clementi Rd, 1234665 t/run 100km av/sat:1000-1100`
+**Add**    | `add n/NAME p/PHONE_NUMBER e/EMAIL a/ADDRESS av/AVAILABILITY ts/TIMESLOT t/TRAINING_GOAL [i/INJURY_STATUS] [s/SKILL] [pr/PROGRESS_RECORD]` <br> e.g., `add n/James Ho p/22224444 e/jamesho@example.com a/123, Clementi Rd, 1234665 t/run 100km av/sat:1000-1100`
 **Clear**  | `clear`
 **Delete** | `delete INDEX`<br> e.g., `delete 3`
-**Edit**   | `edit INDEX [n/NAME] [p/PHONE] [e/EMAIL] [a/ADDRESS] [av/AVAILABILITY] [t/TRAINING GOAL] [pr/PROGRESS_RECORD] [i/INJURY_STATUS] [s/SKILL]`<br> e.g.,`edit 2 n/James Lee e/jameslee@example.com`
+**Edit**   | `edit INDEX [n/NAME] [p/PHONE] [e/EMAIL] [a/ADDRESS] [av/AVAILABILITY] [ts/TIMESLOT] [t/TRAINING GOAL] [pr/PROGRESS_RECORD] [i/INJURY_STATUS] [s/SKILL]`<br> e.g.,`edit 2 n/James Lee e/jameslee@example.com`
 **Find**   | `find KEYWORD [MORE_KEYWORDS]`<br> e.g., `find James Jake`
 **List**   | `list`
 **Help**   | `help`
