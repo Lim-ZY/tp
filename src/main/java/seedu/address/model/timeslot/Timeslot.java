@@ -17,12 +17,13 @@ public class Timeslot implements Comparable<Timeslot> {
     public static final String MESSAGE_CONSTRAINTS = "Timeslot should be in the format "
             + "day:start-end OR day:slotNumber separated by semicolons with no spaces.\n"
             + "Example: mon:0900-1000,1200-1300;tue:9;wed:7\n"
-            + "- Days must be a 3-letter abbreviation (mon, tue, wed, thu, fri, sat, sun).\n"
+            + "- Days: 3-letter abbreviation (mon, tue, wed, thu, fri, sat, sun) case-insensitive.\n"
             + "- Days should not repeat.\n"
-            + "- Times must be in valid 24-hour format in the time range of 0800-2000 OR slot numbers from 1 to 12.\n"
-            + "- Multiple timings in a day must be separated by commas\n"
-            //+ "- Timings in a day should not be more than an hour\n"
-            //+ "- Start time must be strictly before the end time.\n"
+            + "- Times: in valid 24-hour format (HHMM-HHMM) OR slot numbers (from 1 to 12).\n"
+            + "- Hourly Boundaries: If using HHMM-HHMM, times must start and end exactly on the hour. "
+            + "The minutes field must be '00' (e.g., 0800, 1400).\n"
+            + "- Multiple timings in a day must be separated by commas.\n"
+            + "- No Duplicates: A slot cannot be assigned twice on the same day.\n"
             + "- It cannot be left completely empty.";
     /*
      * Regex breakdown:
