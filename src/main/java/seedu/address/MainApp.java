@@ -86,9 +86,10 @@ public class MainApp extends Application {
             }
             initialData = addressBookOptional.orElseGet(SampleDataUtil::getSampleAddressBook);
         } catch (DataLoadingException e) {
-            String message = createDataLoadErrorMessage(storage.getAddressBookFilePath(), e);
-            logger.warning(message);
-            startupErrorMessage = message;
+            String userMessage = createDataLoadErrorMessage(storage.getAddressBookFilePath(),
+                    getUserFacingErrorMessage(e));
+            logger.warning(userMessage);
+            startupErrorMessage = userMessage;
             initialData = new AddressBook();
         }
 
@@ -191,10 +192,24 @@ public class MainApp extends Application {
 
     /**
      * Builds the startup error message that explains which data file failed to load
-     * and includes the exception details of the error
+     * and shows the human-readable cause.
      */
-    private String createDataLoadErrorMessage(Path dataFilePath, DataLoadingException e) {
-        return "Data file at " + dataFilePath + " could not be loaded."
-                + " Will be starting with an empty AddressBook.\n" + "Error: " + StringUtil.getDetails(e);
+    /**
+     * Builds the startup error message shown to the user when the data file cannot be loaded.
+     */
+    private String createDataLoadErrorMessage(Path dataFilePath, String message) {
+        return "WARNING: Data file at " + dataFilePath + " could not be loaded. Starting with an empty AddressBook.\n"
+                + "Reason: " + message;
+    }
+
+    /**
+     * Returns error message to be shown to user {@code e}.
+     */
+    private String getUserFacingErrorMessage(DataLoadingException e) {
+        Throwable cause = e.getCause();
+        if (cause != null && cause.getMessage() != null && !cause.getMessage().isBlank()) {
+            return cause.getMessage();
+        }
+        return e.getMessage();
     }
 }
