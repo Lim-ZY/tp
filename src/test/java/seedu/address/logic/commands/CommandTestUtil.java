@@ -3,7 +3,6 @@ package seedu.address.logic.commands;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 import static seedu.address.logic.parser.CliSyntax.PREFIX_ADDRESS;
-import static seedu.address.logic.parser.CliSyntax.PREFIX_AVAILABILITY;
 import static seedu.address.logic.parser.CliSyntax.PREFIX_EMAIL;
 import static seedu.address.logic.parser.CliSyntax.PREFIX_INJURY_STATUS;
 import static seedu.address.logic.parser.CliSyntax.PREFIX_NAME;
@@ -44,8 +43,6 @@ public class CommandTestUtil {
     public static final String VALID_SKILL_BOB = "exPert";
     public static final String VALID_TRAINING_GOAL_AMY = "1 million push ups";
     public static final String VALID_TRAINING_GOAL_BOB = "stay fit";
-    public static final String VALID_AVAILABILITY_AMY = "mon:0900-1000;tue:0000-2359;wed:0100-0300";
-    public static final String VALID_AVAILABILITY_BOB = "mon:0900-1000;tue:0000-2359;wed:0100-0300";
     public static final String VALID_TIMESLOT_AMY = "mon:1";
     public static final String VALID_TIMESLOT_BOB = "tue:2,4";
     public static final String VALID_PROGRESS_RECORD = "50%";
@@ -62,8 +59,6 @@ public class CommandTestUtil {
     public static final String SKILL_DESC_BOB = " " + PREFIX_SKILL + VALID_SKILL_BOB;
     public static final String TRAINING_GOAL_DESC_AMY = " " + PREFIX_TRAINING_GOAL + VALID_TRAINING_GOAL_AMY;
     public static final String TRAINING_GOAL_DESC_BOB = " " + PREFIX_TRAINING_GOAL + VALID_TRAINING_GOAL_BOB;
-    public static final String AVAILABILITY_DESC_AMY = " " + PREFIX_AVAILABILITY + VALID_AVAILABILITY_AMY;
-    public static final String AVAILABILITY_DESC_BOB = " " + PREFIX_AVAILABILITY + VALID_AVAILABILITY_BOB;
     public static final String TIMESLOT_DESC_AMY = " " + PREFIX_TIMESLOT + VALID_TIMESLOT_AMY;
     public static final String TIMESLOT_DESC_BOB = " " + PREFIX_TIMESLOT + VALID_TIMESLOT_BOB;
 
@@ -77,7 +72,6 @@ public class CommandTestUtil {
     public static final String INVALID_INJURY_STATUS_DESC = " " + PREFIX_INJURY_STATUS + " ";
     public static final String INVALID_TRAINING_GOAL_DESC = " "
             + PREFIX_TRAINING_GOAL; // empty string not allowed for trainingGoals
-    public static final String INVALID_AVAILABILITY_DESC = " " + PREFIX_AVAILABILITY + "mon: 0900"; // space not allowed
     public static final String INVALID_TIMESLOT_DESC = " " + PREFIX_TIMESLOT + "sun: 9"; // space not allowed
     public static final String INVALID_PROGRESS_RECORD = "123";
 
@@ -92,12 +86,12 @@ public class CommandTestUtil {
                 .withPhone(VALID_PHONE_AMY).withEmail(VALID_EMAIL_AMY).withAddress(VALID_ADDRESS_AMY)
                 .withTrainingGoal(VALID_TRAINING_GOAL_AMY)
                 .withTimeslots(VALID_TIMESLOT_AMY)
-                .withAvailability(VALID_AVAILABILITY_AMY).build();
+                .build();
         DESC_BOB = new EditPersonDescriptorBuilder().withName(VALID_NAME_BOB)
                 .withPhone(VALID_PHONE_BOB).withEmail(VALID_EMAIL_BOB).withAddress(VALID_ADDRESS_BOB)
                 .withTrainingGoal(VALID_TRAINING_GOAL_BOB)
                 .withTimeslots(VALID_TIMESLOT_BOB)
-                .withAvailability(VALID_AVAILABILITY_BOB).build();
+                .build();
     }
 
     /**

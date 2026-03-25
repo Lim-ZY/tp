@@ -36,8 +36,6 @@ public class PersonCard extends UiPart<Region> {
     @FXML
     private Label address;
     @FXML
-    private Label availability;
-    @FXML
     private FlowPane timeslots;
     @FXML
     private Label trainingGoal;
@@ -60,7 +58,6 @@ public class PersonCard extends UiPart<Region> {
         name.setText(person.getName().fullName);
         phone.setText(person.getPhone().value);
         address.setText(person.getAddress().value);
-        availability.setText(person.getAvailability().value);
         trainingGoal.setText("Goal: " + person.getTrainingGoal().value);
         email.setText(person.getEmail().value);
         injuryStatus.setText(person.getInjuryStatus().value);

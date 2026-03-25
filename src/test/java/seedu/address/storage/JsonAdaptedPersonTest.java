@@ -13,7 +13,6 @@ import org.junit.jupiter.api.Test;
 
 import seedu.address.commons.exceptions.IllegalValueException;
 import seedu.address.model.person.Address;
-import seedu.address.model.person.Availability;
 import seedu.address.model.person.Email;
 import seedu.address.model.person.InjuryStatus;
 import seedu.address.model.person.Name;
@@ -29,7 +28,6 @@ public class JsonAdaptedPersonTest {
     private static final String INVALID_NAME = "R@chel";
     private static final String INVALID_PHONE = "+651234";
     private static final String INVALID_ADDRESS = " ";
-    private static final String INVALID_AVAILABILITY = "MON: 1000-1100";
     private static final String INVALID_TIMESLOT = "MON:13";
     private static final String INVALID_EMAIL = "example.com";
     private static final String INVALID_TRAINING_GOAL = " ";
@@ -42,7 +40,6 @@ public class JsonAdaptedPersonTest {
     private static final String VALID_ADDRESS = BENSON.getAddress().toString();
     private static final String VALID_SKILL = BENSON.getSkill().toString();
     private static final String VALID_TRAINING_GOAL = BENSON.getTrainingGoal().toString();
-    private static final String VALID_AVAILABILITY = BENSON.getAvailability().toString();
     private static final String VALID_PROGRESS_RECORD = BENSON.getProgressRecord().toString();
     private static final String VALID_INJURY_STATUS = BENSON.getInjuryStatus().toString();
     private static final List<JsonAdaptedTimeslot> VALID_TIMESLOTS = BENSON.getTimeslots().stream()
@@ -60,7 +57,7 @@ public class JsonAdaptedPersonTest {
         JsonAdaptedPerson person =
                 new JsonAdaptedPerson(INVALID_NAME, VALID_PHONE, VALID_EMAIL,
                         VALID_ADDRESS, VALID_INJURY_STATUS, VALID_TRAINING_GOAL,
-                        VALID_AVAILABILITY, VALID_TIMESLOTS, VALID_SKILL, VALID_PROGRESS_RECORD);
+                        VALID_TIMESLOTS, VALID_SKILL, VALID_PROGRESS_RECORD);
         String expectedMessage = Name.MESSAGE_CONSTRAINTS;
         assertThrows(IllegalValueException.class, expectedMessage, person::toModelType);
     }
@@ -70,7 +67,7 @@ public class JsonAdaptedPersonTest {
         JsonAdaptedPerson person =
                 new JsonAdaptedPerson(null, VALID_PHONE, VALID_EMAIL,
                         VALID_ADDRESS, VALID_INJURY_STATUS, VALID_TRAINING_GOAL,
-                        VALID_AVAILABILITY, VALID_TIMESLOTS, VALID_SKILL, VALID_PROGRESS_RECORD);
+                        VALID_TIMESLOTS, VALID_SKILL, VALID_PROGRESS_RECORD);
         String expectedMessage = String.format(MISSING_FIELD_MESSAGE_FORMAT, Name.class.getSimpleName());
         assertThrows(IllegalValueException.class, expectedMessage, person::toModelType);
     }
@@ -80,7 +77,7 @@ public class JsonAdaptedPersonTest {
         JsonAdaptedPerson person =
                 new JsonAdaptedPerson(VALID_NAME, INVALID_PHONE, VALID_EMAIL,
                         VALID_ADDRESS, VALID_INJURY_STATUS, VALID_TRAINING_GOAL,
-                        VALID_AVAILABILITY, VALID_TIMESLOTS, VALID_SKILL, VALID_PROGRESS_RECORD);
+                        VALID_TIMESLOTS, VALID_SKILL, VALID_PROGRESS_RECORD);
         String expectedMessage = Phone.MESSAGE_CONSTRAINTS;
         assertThrows(IllegalValueException.class, expectedMessage, person::toModelType);
     }
@@ -90,7 +87,7 @@ public class JsonAdaptedPersonTest {
         JsonAdaptedPerson person =
                 new JsonAdaptedPerson(VALID_NAME, null, VALID_EMAIL,
                         VALID_ADDRESS, VALID_INJURY_STATUS, VALID_TRAINING_GOAL,
-                        VALID_AVAILABILITY, VALID_TIMESLOTS, VALID_SKILL, VALID_PROGRESS_RECORD);
+                        VALID_TIMESLOTS, VALID_SKILL, VALID_PROGRESS_RECORD);
         String expectedMessage = String.format(MISSING_FIELD_MESSAGE_FORMAT, Phone.class.getSimpleName());
         assertThrows(IllegalValueException.class, expectedMessage, person::toModelType);
     }
@@ -100,7 +97,7 @@ public class JsonAdaptedPersonTest {
         JsonAdaptedPerson person =
                 new JsonAdaptedPerson(VALID_NAME, VALID_PHONE, INVALID_EMAIL,
                         VALID_ADDRESS, VALID_INJURY_STATUS, VALID_TRAINING_GOAL,
-                        VALID_AVAILABILITY, VALID_TIMESLOTS, VALID_SKILL, VALID_PROGRESS_RECORD);
+                        VALID_TIMESLOTS, VALID_SKILL, VALID_PROGRESS_RECORD);
         String expectedMessage = Email.MESSAGE_CONSTRAINTS;
         assertThrows(IllegalValueException.class, expectedMessage, person::toModelType);
     }
@@ -110,7 +107,7 @@ public class JsonAdaptedPersonTest {
         JsonAdaptedPerson person =
                 new JsonAdaptedPerson(VALID_NAME, VALID_PHONE, null,
                         VALID_ADDRESS, VALID_INJURY_STATUS, VALID_TRAINING_GOAL,
-                        VALID_AVAILABILITY, VALID_TIMESLOTS, VALID_SKILL, VALID_PROGRESS_RECORD);
+                        VALID_TIMESLOTS, VALID_SKILL, VALID_PROGRESS_RECORD);
 
         String expectedMessage = String.format(MISSING_FIELD_MESSAGE_FORMAT, Email.class.getSimpleName());
         assertThrows(IllegalValueException.class, expectedMessage, person::toModelType);
@@ -121,7 +118,7 @@ public class JsonAdaptedPersonTest {
         JsonAdaptedPerson person =
                 new JsonAdaptedPerson(VALID_NAME, VALID_PHONE, VALID_EMAIL,
                         INVALID_ADDRESS, VALID_INJURY_STATUS, VALID_TRAINING_GOAL,
-                        VALID_AVAILABILITY, VALID_TIMESLOTS, VALID_SKILL, VALID_PROGRESS_RECORD);
+                        VALID_TIMESLOTS, VALID_SKILL, VALID_PROGRESS_RECORD);
         String expectedMessage = Address.MESSAGE_CONSTRAINTS;
         assertThrows(IllegalValueException.class, expectedMessage, person::toModelType);
     }
@@ -131,7 +128,7 @@ public class JsonAdaptedPersonTest {
         JsonAdaptedPerson person =
                 new JsonAdaptedPerson(VALID_NAME, VALID_PHONE,
                         VALID_EMAIL, null, VALID_INJURY_STATUS, VALID_TRAINING_GOAL,
-                        VALID_AVAILABILITY, VALID_TIMESLOTS, VALID_SKILL, VALID_PROGRESS_RECORD);
+                        VALID_TIMESLOTS, VALID_SKILL, VALID_PROGRESS_RECORD);
         String expectedMessage = String.format(MISSING_FIELD_MESSAGE_FORMAT, Address.class.getSimpleName());
         assertThrows(IllegalValueException.class, expectedMessage, person::toModelType);
     }
@@ -141,7 +138,7 @@ public class JsonAdaptedPersonTest {
         JsonAdaptedPerson person =
                 new JsonAdaptedPerson(VALID_NAME, VALID_PHONE, VALID_EMAIL, VALID_ADDRESS,
                         INVALID_INJURY_STATUS, VALID_TRAINING_GOAL,
-                        VALID_AVAILABILITY, VALID_TIMESLOTS, VALID_SKILL, VALID_PROGRESS_RECORD);
+                        VALID_TIMESLOTS, VALID_SKILL, VALID_PROGRESS_RECORD);
         String expectedMessage = InjuryStatus.MESSAGE_CONSTRAINTS;
         assertThrows(IllegalValueException.class, expectedMessage, person::toModelType);
     }
@@ -151,7 +148,7 @@ public class JsonAdaptedPersonTest {
         JsonAdaptedPerson person =
                 new JsonAdaptedPerson(VALID_NAME, VALID_PHONE, VALID_EMAIL,
                         VALID_ADDRESS, null, VALID_TRAINING_GOAL,
-                        VALID_AVAILABILITY, VALID_TIMESLOTS, VALID_SKILL, VALID_PROGRESS_RECORD);
+                        VALID_TIMESLOTS, VALID_SKILL, VALID_PROGRESS_RECORD);
 
         Person expectedPerson = new PersonBuilder(BENSON)
                 .withInjuryStatus(InjuryStatus.DEFAULT_INJURY_STATUS)
@@ -165,19 +162,8 @@ public class JsonAdaptedPersonTest {
         JsonAdaptedPerson person =
                 new JsonAdaptedPerson(VALID_NAME, VALID_PHONE, VALID_EMAIL,
                         VALID_ADDRESS, VALID_INJURY_STATUS, INVALID_TRAINING_GOAL,
-                        VALID_AVAILABILITY, VALID_TIMESLOTS, VALID_SKILL, VALID_PROGRESS_RECORD);
+                        VALID_TIMESLOTS, VALID_SKILL, VALID_PROGRESS_RECORD);
         String expectedMessage = TrainingGoal.MESSAGE_CONSTRAINTS;
-        assertThrows(IllegalValueException.class, expectedMessage, person::toModelType);
-    }
-
-
-    @Test
-    public void toModelType_invalidAvailability_throwsIllegalValueException() {
-        JsonAdaptedPerson person =
-                new JsonAdaptedPerson(VALID_NAME, VALID_PHONE, VALID_EMAIL,
-                        VALID_ADDRESS, VALID_INJURY_STATUS, VALID_TRAINING_GOAL,
-                        INVALID_AVAILABILITY, VALID_TIMESLOTS, VALID_SKILL, VALID_PROGRESS_RECORD);
-        String expectedMessage = Availability.MESSAGE_CONSTRAINTS;
         assertThrows(IllegalValueException.class, expectedMessage, person::toModelType);
     }
 
@@ -186,7 +172,7 @@ public class JsonAdaptedPersonTest {
         JsonAdaptedPerson person =
             new JsonAdaptedPerson(VALID_NAME, VALID_PHONE, VALID_EMAIL,
                     VALID_ADDRESS, VALID_INJURY_STATUS, VALID_TRAINING_GOAL,
-                    VALID_AVAILABILITY, VALID_TIMESLOTS, null, VALID_PROGRESS_RECORD);
+                    VALID_TIMESLOTS, null, VALID_PROGRESS_RECORD);
         Person modelPerson = person.toModelType();
         assertEquals(new Skill(Skill.SKILL_BEGINNER), modelPerson.getSkill());
     }
@@ -196,7 +182,7 @@ public class JsonAdaptedPersonTest {
         JsonAdaptedPerson person =
                 new JsonAdaptedPerson(VALID_NAME, VALID_PHONE, VALID_EMAIL,
                         VALID_ADDRESS, VALID_INJURY_STATUS, VALID_TRAINING_GOAL,
-                        VALID_AVAILABILITY, VALID_TIMESLOTS, INVALID_SKILL, VALID_PROGRESS_RECORD);
+                        VALID_TIMESLOTS, INVALID_SKILL, VALID_PROGRESS_RECORD);
         String expectedMessage = Skill.MESSAGE_CONSTRAINTS;
         assertThrows(IllegalValueException.class, expectedMessage, person::toModelType);
     }
@@ -206,7 +192,7 @@ public class JsonAdaptedPersonTest {
         JsonAdaptedPerson person =
                 new JsonAdaptedPerson(VALID_NAME, VALID_PHONE, VALID_EMAIL,
                         VALID_ADDRESS, VALID_INJURY_STATUS, VALID_TRAINING_GOAL,
-                        VALID_AVAILABILITY, VALID_TIMESLOTS, VALID_SKILL, INVALID_PROGRESS_RECORD);
+                        VALID_TIMESLOTS, VALID_SKILL, INVALID_PROGRESS_RECORD);
         String expectedMessage = ProgressRecord.MESSAGE_CONSTRAINTS;
         assertThrows(IllegalValueException.class, expectedMessage, person::toModelType);
     }
@@ -218,7 +204,7 @@ public class JsonAdaptedPersonTest {
         JsonAdaptedPerson person =
                 new JsonAdaptedPerson(VALID_NAME, VALID_PHONE, VALID_EMAIL,
                         VALID_ADDRESS, VALID_INJURY_STATUS, VALID_TRAINING_GOAL,
-                        VALID_AVAILABILITY, invalidTimeslots, VALID_SKILL, VALID_PROGRESS_RECORD);
+                        invalidTimeslots, VALID_SKILL, VALID_PROGRESS_RECORD);
         assertThrows(IllegalValueException.class, person::toModelType);
     }
 

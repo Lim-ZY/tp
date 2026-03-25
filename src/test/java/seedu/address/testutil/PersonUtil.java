@@ -1,7 +1,6 @@
 package seedu.address.testutil;
 
 import static seedu.address.logic.parser.CliSyntax.PREFIX_ADDRESS;
-import static seedu.address.logic.parser.CliSyntax.PREFIX_AVAILABILITY;
 import static seedu.address.logic.parser.CliSyntax.PREFIX_EMAIL;
 import static seedu.address.logic.parser.CliSyntax.PREFIX_INJURY_STATUS;
 import static seedu.address.logic.parser.CliSyntax.PREFIX_NAME;
@@ -40,7 +39,6 @@ public class PersonUtil {
         sb.append(PREFIX_EMAIL + person.getEmail().value + " ");
         sb.append(PREFIX_ADDRESS + person.getAddress().value + " ");
         sb.append(PREFIX_TRAINING_GOAL + person.getTrainingGoal().value + " ");
-        sb.append(PREFIX_AVAILABILITY + person.getAvailability().value + " ");
         person.getTimeslots().stream().forEach(
                 t -> sb.append(PREFIX_TIMESLOT + t.toStorageString() + " ")
         );
@@ -61,8 +59,6 @@ public class PersonUtil {
                                                     .append(address.value).append(" "));
         descriptor.getTrainingGoal().ifPresent(trainingGoal -> sb.append(PREFIX_TRAINING_GOAL)
                                                     .append(trainingGoal.value).append(" "));
-        descriptor.getAvailability().ifPresent(avail -> sb.append(PREFIX_AVAILABILITY)
-                                                    .append(avail.value).append(" "));
         descriptor.getSkill().ifPresent(skill -> sb.append(PREFIX_SKILL).append(skill.value).append(" "));
         descriptor.getProgressRecord().ifPresent(progressRecord -> sb.append(PREFIX_PROGRESS_RECORD)
                 .append(progressRecord.value).append(" "));

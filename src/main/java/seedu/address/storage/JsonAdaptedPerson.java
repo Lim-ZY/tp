@@ -11,7 +11,6 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 
 import seedu.address.commons.exceptions.IllegalValueException;
 import seedu.address.model.person.Address;
-import seedu.address.model.person.Availability;
 import seedu.address.model.person.Email;
 import seedu.address.model.person.InjuryStatus;
 import seedu.address.model.person.Name;
@@ -36,7 +35,6 @@ class JsonAdaptedPerson {
     private final String injuryStatus;
     private final String skill;
     private final String trainingGoal;
-    private final String availability;
     private final List<JsonAdaptedTimeslot> timeslots = new ArrayList<>();
     private String progressRecord;
 
@@ -47,7 +45,7 @@ class JsonAdaptedPerson {
     public JsonAdaptedPerson(@JsonProperty("name") String name, @JsonProperty("phone") String phone,
             @JsonProperty("email") String email, @JsonProperty("address") String address,
             @JsonProperty("injuryStatus") String injuryStatus,
-            @JsonProperty("trainingGoal") String trainingGoal, @JsonProperty("availability") String availability,
+            @JsonProperty("trainingGoal") String trainingGoal,
             @JsonProperty("timeslots") List<JsonAdaptedTimeslot> timeslots,
             @JsonProperty("skill") String skill, @JsonProperty("progressRecord") String progressRecord) {
         this.name = name;
@@ -56,7 +54,6 @@ class JsonAdaptedPerson {
         this.address = address;
         this.injuryStatus = injuryStatus;
         this.trainingGoal = trainingGoal;
-        this.availability = availability;
         if (timeslots != null) {
             this.timeslots.addAll(timeslots);
         }
@@ -74,7 +71,6 @@ class JsonAdaptedPerson {
         address = source.getAddress().value;
         injuryStatus = source.getInjuryStatus().value;
         trainingGoal = source.getTrainingGoal().value;
-        availability = source.getAvailability().value;
         timeslots.addAll(source.getTimeslots().stream()
                 .map(JsonAdaptedTimeslot::new)
                 .collect(Collectors.toList()));
@@ -144,15 +140,6 @@ class JsonAdaptedPerson {
             modelTrainingGoal = new TrainingGoal(trainingGoal);
         }
 
-        final Availability modelAvailability;
-        if (availability == null) {
-            modelAvailability = new Availability(Availability.DEFAULT_AVAILABILITY);
-        } else if (!Availability.isValidAvailability(availability)) {
-            throw new IllegalValueException(Availability.MESSAGE_CONSTRAINTS);
-        } else {
-            modelAvailability = new Availability(availability);
-        }
-
         final Skill modelSkill;
         if (skill == null) {
             modelSkill = new Skill(Skill.SKILL_BEGINNER);
@@ -172,7 +159,7 @@ class JsonAdaptedPerson {
 
         final Set<Timeslot> modelTimeslots = new TreeSet<>(personTimeslots);
         return new Person(modelName, modelPhone, modelEmail, modelAddress, modelInjuryStatus, modelTrainingGoal,
-                modelAvailability, modelTimeslots, modelProgressRecord, modelSkill);
+                modelTimeslots, modelProgressRecord, modelSkill);
     }
 
 }

@@ -4,7 +4,6 @@ import java.util.Set;
 import java.util.TreeSet;
 
 import seedu.address.model.person.Address;
-import seedu.address.model.person.Availability;
 import seedu.address.model.person.Email;
 import seedu.address.model.person.InjuryStatus;
 import seedu.address.model.person.Name;
@@ -26,7 +25,6 @@ public class PersonBuilder {
     public static final String DEFAULT_EMAIL = "amy@gmail.com";
     public static final String DEFAULT_ADDRESS = "123, Jurong West Ave 6, #08-111";
     public static final String DEFAULT_TRAINING_GOAL = "get a 6 pack";
-    public static final String DEFAULT_AVAILABILITY = "mon:0900-1000;tue:0000-2359;wed:0100-0300";
     public static final String DEFAULT_TIMESLOT = "mon:1,2";
     public static final String DEFAULT_SKILL = Skill.SKILL_BEGINNER;
     private static final String DEFAULT_INJURY_STATUS = "Unknown";
@@ -38,7 +36,6 @@ public class PersonBuilder {
     private InjuryStatus injuryStatus;
     private Skill skill;
     private TrainingGoal trainingGoal;
-    private Availability availability;
     private ProgressRecord progressRecord;
     private Set<Timeslot> timeslots;
 
@@ -52,7 +49,6 @@ public class PersonBuilder {
         address = new Address(DEFAULT_ADDRESS);
         injuryStatus = new InjuryStatus(DEFAULT_INJURY_STATUS);
         trainingGoal = new TrainingGoal(DEFAULT_TRAINING_GOAL);
-        availability = new Availability(DEFAULT_AVAILABILITY);
         skill = new Skill(DEFAULT_SKILL);
         progressRecord = new ProgressRecord(ProgressRecord.DEFAULT_PROGRESS);
         timeslots = new TreeSet<>();
@@ -69,7 +65,6 @@ public class PersonBuilder {
         address = personToCopy.getAddress();
         injuryStatus = personToCopy.getInjuryStatus();
         trainingGoal = personToCopy.getTrainingGoal();
-        availability = personToCopy.getAvailability();
         skill = personToCopy.getSkill();
         progressRecord = personToCopy.getProgressRecord();
         timeslots = new TreeSet<>(personToCopy.getTimeslots());
@@ -96,14 +91,6 @@ public class PersonBuilder {
      */
     public PersonBuilder withAddress(String address) {
         this.address = new Address(address);
-        return this;
-    }
-
-    /**
-     * Sets the {@code Availability} of the {@code Person} that we are building.
-     */
-    public PersonBuilder withAvailability(String availability) {
-        this.availability = new Availability(availability);
         return this;
     }
 
@@ -162,7 +149,7 @@ public class PersonBuilder {
      * @return Person built with the specified attributes.
      */
     public Person build() {
-        return new Person(name, phone, email, address, injuryStatus, trainingGoal, availability, timeslots,
+        return new Person(name, phone, email, address, injuryStatus, trainingGoal, timeslots,
                 progressRecord, skill);
     }
 

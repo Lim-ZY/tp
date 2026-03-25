@@ -11,7 +11,7 @@ Each client profile includes:
 - Name
 - Contact Number
 - Address
-- Weekly Availability
+- Weekly Training Timeslot
 - Training Goals
 - Skill Level*
 - Progress Record*
