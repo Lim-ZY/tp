@@ -48,7 +48,6 @@ MainApp -> UiManager : showStartupErrorMessage(startupErrorMessage)
 UiManager -> MainWindow : showStartupMessage(message)
 MainWindow -> ResultDisplay : setFeedbackToUser(message)
 deactivate UiManager
-
 note over JsonStorage,StorageManager STORAGE_COLOR_T1: Parsing produces IllegalValueException; wrapped as DataLoadingException for startup handling
 note over MainWindow UI_COLOR_T1: ResultDisplay shows the warning so the user sees the load failure reason
 @enduml
