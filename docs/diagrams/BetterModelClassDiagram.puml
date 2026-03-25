@@ -11,6 +11,7 @@ Person *--> Name
 Person *--> Phone
 Person *--> Email
 Person *--> Address
+Person *--> Timeslot
 Person *--> TrainingGoal
 Person *--> "0..1" FilteredSkill
 @enduml
