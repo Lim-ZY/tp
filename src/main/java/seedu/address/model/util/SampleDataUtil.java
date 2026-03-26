@@ -42,7 +42,7 @@ public class SampleDataUtil {
                 new InjuryStatus("Recovering"),
                 new TrainingGoal("6 packs"),
                 getTimeslotSet("mon:1,2,3", "tue:2,3", "wed:3,4", "thu:4,6", "fri:5,12", "sat:6,11", "sun:7,8"),
-                new ProgressRecord("5.5%"),
+                new ProgressRecord("5%"),
                 new Skill(Skill.SKILL_BEGINNER)),
             new Person(new Name("David Li"), new Phone("91031282"), new Email("lidavid@example.com"),
                 new Address("Blk 436 Serangoon Gardens Street 26, #16-43"),
