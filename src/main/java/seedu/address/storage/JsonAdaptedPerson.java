@@ -35,7 +35,7 @@ class JsonAdaptedPerson {
     private final String injuryStatus;
     private final String skill;
     private final String trainingGoal;
-    private final List<JsonAdaptedTimeslot> timeslots = new ArrayList<>();
+    private final List<String> timeslots = new ArrayList<>();
     private String progressRecord;
 
     /**
@@ -46,7 +46,7 @@ class JsonAdaptedPerson {
             @JsonProperty("email") String email, @JsonProperty("address") String address,
             @JsonProperty("injuryStatus") String injuryStatus,
             @JsonProperty("trainingGoal") String trainingGoal,
-            @JsonProperty("timeslots") List<JsonAdaptedTimeslot> timeslots,
+            @JsonProperty("timeslots") List<String> timeslots,
             @JsonProperty("skill") String skill, @JsonProperty("progressRecord") String progressRecord) {
         this.name = name;
         this.phone = phone;
@@ -72,7 +72,7 @@ class JsonAdaptedPerson {
         injuryStatus = source.getInjuryStatus().value;
         trainingGoal = source.getTrainingGoal().value;
         timeslots.addAll(source.getTimeslots().stream()
-                .map(JsonAdaptedTimeslot::new)
+                .map(Timeslot::toStorageString)
                 .collect(Collectors.toList()));
         skill = source.getSkill().value;
         progressRecord = source.getProgressRecord().value;
@@ -84,20 +84,15 @@ class JsonAdaptedPerson {
      * @throws IllegalValueException if there were any data constraints violated in the adapted person.
      */
     public Person toModelType() throws IllegalValueException {
-        final List<Timeslot> personTimeslots = new ArrayList<>();
-        for (JsonAdaptedTimeslot timeslot : timeslots) {
-            personTimeslots.add(timeslot.toModelType());
-        }
-
         Name modelName = toModelName();
         Phone modelPhone = toModelPhone();
         Email modelEmail = toModelEmail();
         Address modelAddress = toModelAddress();
-        final Set<Timeslot> modelTimeslots = new TreeSet<>(personTimeslots);
         TrainingGoal modelTrainingGoal = toModelTrainingGoal();
         ProgressRecord modelProgressRecord = toModelProgressRecord();
         InjuryStatus modelInjuryStatus = toModelInjuryStatus();
         Skill modelSkill = toModelSkill();
+        final Set<Timeslot> modelTimeslots = toModelTimeslotSet();
 
         return new Person(modelName, modelPhone, modelEmail, modelAddress, modelInjuryStatus, modelTrainingGoal,
                 modelTimeslots, modelProgressRecord, modelSkill);
@@ -228,6 +223,40 @@ class JsonAdaptedPerson {
                     Skill.MESSAGE_CONSTRAINTS, skill));
         }
         return new Skill(skill);
+    }
+
+    /**
+     * Converts the stored timeslot strings into a validated, sorted {@code Set<Timeslot>}.
+     *
+     * @throws IllegalValueException if any stored timeslot string is missing or invalid.
+     */
+    private Set<Timeslot> toModelTimeslotSet() throws IllegalValueException {
+        if (timeslots.isEmpty()) {
+            throw new IllegalValueException(String.format(MISSING_FIELD_MESSAGE_FORMAT,
+                    Timeslot.class.getSimpleName()));
+        }
+        List<Timeslot> personTimeslots = new ArrayList<>();
+        for (String timeslot : timeslots) {
+            personTimeslots.add(toModelTimeslot(timeslot));
+        }
+        return new TreeSet<>(personTimeslots);
+    }
+
+    /**
+     * Converts the stored timeslot string to a model {@code Timeslot}, default if absent.
+     *
+     * @throws IllegalValueException if the stored timeslot is invalid.
+     */
+    private Timeslot toModelTimeslot(String timeslot) throws IllegalValueException {
+        if (timeslot == null) {
+            throw new IllegalValueException(formatInvalidFieldMessage(Timeslot.class.getSimpleName(),
+                    Timeslot.MESSAGE_CONSTRAINTS, "null"));
+        }
+        if (!Timeslot.isValidTimeslot(timeslot)) {
+            throw new IllegalValueException(formatInvalidFieldMessage(Timeslot.class.getSimpleName(),
+                    Timeslot.MESSAGE_CONSTRAINTS, timeslot));
+        }
+        return new Timeslot(timeslot);
     }
 
     /**
