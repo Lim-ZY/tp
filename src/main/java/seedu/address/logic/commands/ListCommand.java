@@ -22,8 +22,8 @@ public class ListCommand extends Command {
 
     public static final String COMMAND_WORD = "list";
 
-    public static final String MESSAGE_SUCCESS = "Listed all persons";
-    public static final String MESSAGE_SUCCESS_FILTERED = "Listed all persons with skill level: %1$s";
+    public static final String MESSAGE_SUCCESS = "Listed all persons (%1$d entries)";
+    public static final String MESSAGE_SUCCESS_FILTERED = "Listed all persons with skill level: %1$s (%2$d entries)";
 
     public static final String MESSAGE_USAGE = COMMAND_WORD
             + ": Lists all persons or filters by skill level.\n"
@@ -57,7 +57,8 @@ public class ListCommand extends Command {
 
         if (skills.isEmpty()) {
             model.updateFilteredPersonList(PREDICATE_SHOW_ALL_PERSONS);
-            return new CommandResult(MESSAGE_SUCCESS);
+            return new CommandResult(String.format(ListCommand.MESSAGE_SUCCESS,
+                    model.getFilteredPersonList().size()));
         } else {
             model.updateFilteredPersonList(person ->
                     skills.stream().anyMatch(skill ->
@@ -65,7 +66,10 @@ public class ListCommand extends Command {
             String skillNames = skills.stream()
                     .map(s -> s.value)
                     .collect(java.util.stream.Collectors.joining(", "));
-            return new CommandResult(String.format(MESSAGE_SUCCESS_FILTERED, skillNames));
+            return new CommandResult(String.format(ListCommand.MESSAGE_SUCCESS_FILTERED,
+                    skillNames,
+                    model.getFilteredPersonList().size())
+            );
         }
     }
 

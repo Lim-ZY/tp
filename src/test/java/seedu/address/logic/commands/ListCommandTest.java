@@ -51,13 +51,17 @@ public class ListCommandTest {
 
     @Test
     public void execute_listIsNotFiltered_showsSameList() {
-        assertCommandSuccess(new ListCommand(), model, ListCommand.MESSAGE_SUCCESS, expectedModel);
+        assertCommandSuccess(new ListCommand(), model,
+                String.format(ListCommand.MESSAGE_SUCCESS, expectedModel.getFilteredPersonList().size()),
+                expectedModel);
     }
 
     @Test
     public void execute_listIsFiltered_showsEverything() {
         showPersonAtIndex(model, INDEX_FIRST_PERSON);
-        assertCommandSuccess(new ListCommand(), model, ListCommand.MESSAGE_SUCCESS, expectedModel);
+        assertCommandSuccess(new ListCommand(), model,
+                String.format(ListCommand.MESSAGE_SUCCESS, expectedModel.getFilteredPersonList().size()),
+                expectedModel);
     }
 
     @Test
@@ -66,7 +70,9 @@ public class ListCommandTest {
         expectedModel.updateFilteredPersonList(person ->
                 person.getSkill().value.equalsIgnoreCase("Beginner"));
         assertCommandSuccess(listCommand, model,
-                String.format(ListCommand.MESSAGE_SUCCESS_FILTERED, "Beginner"), expectedModel);
+                String.format(ListCommand.MESSAGE_SUCCESS_FILTERED, "Beginner",
+                        expectedModel.getFilteredPersonList().size()),
+                expectedModel);
     }
 
     @Test
@@ -75,7 +81,9 @@ public class ListCommandTest {
         expectedModel.updateFilteredPersonList(person ->
                 person.getSkill().value.equalsIgnoreCase("Intermediate"));
         assertCommandSuccess(listCommand, model,
-                String.format(ListCommand.MESSAGE_SUCCESS_FILTERED, "Intermediate"), expectedModel);
+                String.format(ListCommand.MESSAGE_SUCCESS_FILTERED, "Intermediate",
+                        expectedModel.getFilteredPersonList().size()),
+                expectedModel);
     }
 
     @ParameterizedTest
@@ -85,7 +93,9 @@ public class ListCommandTest {
         expectedModel.updateFilteredPersonList(person ->
                 person.getSkill().value.equalsIgnoreCase("Expert"));
         assertCommandSuccess(listCommand, model,
-                String.format(ListCommand.MESSAGE_SUCCESS_FILTERED, "Expert"), expectedModel);
+                String.format(ListCommand.MESSAGE_SUCCESS_FILTERED, "Expert",
+                        expectedModel.getFilteredPersonList().size()),
+                expectedModel);
     }
 
     @Test
@@ -96,7 +106,9 @@ public class ListCommandTest {
                 person.getSkill().value.equalsIgnoreCase("Beginner")
                         || person.getSkill().value.equalsIgnoreCase("Expert"));
         assertCommandSuccess(listCommand, model,
-                String.format(ListCommand.MESSAGE_SUCCESS_FILTERED, "Beginner, Expert"), expectedModel);
+                String.format(ListCommand.MESSAGE_SUCCESS_FILTERED, "Beginner, Expert",
+                        expectedModel.getFilteredPersonList().size()),
+                expectedModel);
     }
 
     @Test
