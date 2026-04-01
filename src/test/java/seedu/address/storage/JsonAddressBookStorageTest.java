@@ -88,8 +88,8 @@ public class JsonAddressBookStorageTest {
                 StandardCopyOption.REPLACE_EXISTING);
         JsonAddressBookStorage storage = new JsonAddressBookStorage(tempInvalidFile);
 
-        DataLoadingException exception = Assertions.assertThrows(DataLoadingException.class,
-                () -> storage.readAddressBook(tempInvalidFile));
+        DataLoadingException exception = Assertions.assertThrows(
+                DataLoadingException.class, () -> storage.readAddressBook(tempInvalidFile));
         assertTrue(exception.getBackupFilePath().isPresent());
         Path backupPath = exception.getBackupFilePath().get();
         assertTrue(Files.exists(backupPath));
