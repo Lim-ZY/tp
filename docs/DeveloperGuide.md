@@ -158,96 +158,108 @@ Classes used by multiple components are in the `seedu.address.commons` package.
 
 This section describes some noteworthy details on how certain features are implemented.
 
-### \[Proposed\] Undo/redo feature
+### Filter by Skill Feature
 
-#### Proposed Implementation
+#### Implementation
 
-The proposed undo/redo mechanism is facilitated by `VersionedAddressBook`. It extends `AddressBook` with an undo/redo history, stored internally as an `addressBookStateList` and `currentStatePointer`. Additionally, it implements the following operations:
+The filter by skill mechanism is facilitated by an updated `ListCommand` and `ListCommandParser`.
+The `list` command now accepts one or more optional `s/` prefixes, each specifying a skill level
+to filter by. The following skill levels are supported: `Beginner`, `Intermediate`, and `Expert`
+(case-insensitive).
 
-* `VersionedAddressBook#commit()` — Saves the current address book state in its history.
-* `VersionedAddressBook#undo()` — Restores the previous address book state from its history.
-* `VersionedAddressBook#redo()` — Restores a previously undone address book state from its history.
+Given below is an example usage scenario and how the filter by skill mechanism behaves at each step.
 
-These operations are exposed in the `Model` interface as `Model#commitAddressBook()`, `Model#undoAddressBook()` and `Model#redoAddressBook()` respectively.
+Step 1. The user launches the application. For the purpose of this example, assume the address
+book contains the following 3 persons:
 
-Given below is an example usage scenario and how the undo/redo mechanism behaves at each step.
-
-Step 1. The user launches the application for the first time. The `VersionedAddressBook` will be initialized with the initial address book state, and the `currentStatePointer` pointing to that single address book state.
-
-<puml src="diagrams/UndoRedoState0.puml" alt="UndoRedoState0" />
-
-Step 2. The user executes `delete 5` command to delete the 5th person in the address book. The `delete` command calls `Model#commitAddressBook()`, causing the modified state of the address book after the `delete 5` command executes to be saved in the `addressBookStateList`, and the `currentStatePointer` is shifted to the newly inserted address book state.
-
-<puml src="diagrams/UndoRedoState1.puml" alt="UndoRedoState1" />
-
-Step 3. The user executes `add n/David …​` to add a new person. The `add` command also calls `Model#commitAddressBook()`, causing another modified address book state to be saved into the `addressBookStateList`.
-
-<puml src="diagrams/UndoRedoState2.puml" alt="UndoRedoState2" />
+* `Alex` with skill level `Beginner`
+* `Betty` with skill level `Intermediate`
+* `Charlie` with skill level `Expert`
 
 <box type="info" seamless>
 
-**Note:** If a command fails its execution, it will not call `Model#commitAddressBook()`, so the address book state will not be saved into the `addressBookStateList`.
+**Note:** The diagrams below only show fields relevant to the filter by skill feature. For the
+full list of attributes and relationships in each class, refer to the information above.
 
 </box>
 
-Step 4. The user now decides that adding the person was a mistake, and decides to undo that action by executing the `undo` command. The `undo` command will call `Model#undoAddressBook()`, which will shift the `currentStatePointer` once to the left, pointing it to the previous address book state, and restores the address book to that state.
+<puml src="diagrams/FilterSkillState0.puml" alt="FilterSkillState0" />
 
-<puml src="diagrams/UndoRedoState3.puml" alt="UndoRedoState3" />
+Step 2. The user executes `list s/expert`. `ListCommandParser` parses the input and returns a `ListCommand` containing `Expert` as the skill filter. `ListCommand#execute()` calls `Model#updateFilteredPersonList()` with a predicate that matches only persons with the `Expert` skill level. Only `Charlie` is shown, and the result message reflects 1 entry found.
 
+<puml src="diagrams/FilterSkillState1.puml" alt="FilterSkillState1" />
+
+Step 3. The user executes `list s/beginner s/expert`. `ListCommandParser` collects both values
+and returns a `ListCommand` containing both skill levels. The predicate matches persons whose
+skill level is either `Beginner` or `Expert`. `Alex` and `Charlie` are shown, and the result
+message reflects 2 entries found.
+
+<puml src="diagrams/FilterSkillState2.puml" alt="FilterSkillState2" />
 
 <box type="info" seamless>
 
-**Note:** If the `currentStatePointer` is at index 0, pointing to the initial AddressBook state, then there are no previous AddressBook states to restore. The `undo` command uses `Model#canUndoAddressBook()` to check if this is the case. If so, it will return an error to the user rather
-than attempting to perform the undo.
+**Note:** Skill level matching is case-insensitive. `s/expert`, `s/EXPERT`, and `s/Expert` all
+produce the same result.
 
 </box>
 
-The following sequence diagram shows how an undo operation goes through the `Logic` component:
+Step 4. The user executes `list` with no `s/` prefix. `ListCommandParser` returns an unfiltered
+`ListCommand`. `ListCommand#execute()` calls `Model#updateFilteredPersonList()` with
+`PREDICATE_SHOW_ALL_PERSONS`, restoring the full list. All 3 persons are shown.
 
-<puml src="diagrams/UndoSequenceDiagram-Logic.puml" alt="UndoSequenceDiagram-Logic" />
+<puml src="diagrams/FilterSkillState3.puml" alt="FilterSkillState3" />
 
 <box type="info" seamless>
 
-**Note:** The lifeline for `UndoCommand` should end at the destroy marker (X) but due to a limitation of PlantUML, the lifeline reaches the end of diagram.
+**Note:** The `list` command does not modify the address book state and will not call
+`Model#commitAddressBook()`. The `addressBookStateList` remains unchanged after any `list` command.
 
 </box>
 
-Similarly, how an undo operation goes through the `Model` component is shown below:
+Step 5. The user executes `list s/advanced`. Since `advanced` is not a valid skill level,
+`ListCommandParser` throws a `ParseException` and the filtered list is not updated.
 
-<puml src="diagrams/UndoSequenceDiagram-Model.puml" alt="UndoSequenceDiagram-Model" />
+The following sequence diagram shows how a `list s/expert` operation goes through the `Logic`
+component:
 
-The `redo` command does the opposite — it calls `Model#redoAddressBook()`, which shifts the `currentStatePointer` once to the right, pointing to the previously undone state, and restores the address book to that state.
+<puml src="diagrams/FilterSkillSequenceDiagram-Logic.puml" alt="FilterSkillSequenceDiagram-Logic" />
 
 <box type="info" seamless>
 
-**Note:** If the `currentStatePointer` is at index `addressBookStateList.size() - 1`, pointing to the latest address book state, then there are no undone AddressBook states to restore. The `redo` command uses `Model#canRedoAddressBook()` to check if this is the case. If so, it will return an error to the user rather than attempting to perform the redo.
+**Note:** The lifeline for `ListCommandParser` should end at the destroy marker (X) but due to a
+limitation of PlantUML, the lifeline reaches the end of diagram.
 
 </box>
 
-Step 5. The user then decides to execute the command `list`. Commands that do not modify the address book, such as `list`, will usually not call `Model#commitAddressBook()`, `Model#undoAddressBook()` or `Model#redoAddressBook()`. Thus, the `addressBookStateList` remains unchanged.
+Similarly, how the operation goes through the `Model` component is shown below:
 
-<puml src="diagrams/UndoRedoState4.puml" alt="UndoRedoState4" />
+<puml src="diagrams/FilterSkillSequenceDiagram-Model.puml" alt="FilterSkillSequenceDiagram-Model" />
 
-Step 6. The user executes `clear`, which calls `Model#commitAddressBook()`. Since the `currentStatePointer` is not pointing at the end of the `addressBookStateList`, all address book states after the `currentStatePointer` will be purged. Reason: It no longer makes sense to redo the `add n/David …​` command. This is the behavior that most modern desktop applications follow.
+The following activity diagram summarizes what happens when a user executes a `list` command:
 
-<puml src="diagrams/UndoRedoState5.puml" alt="UndoRedoState5" />
+<puml src="diagrams/FilterSkillActivityDiagram.puml" width="700"/>
 
-The following activity diagram summarizes what happens when a user executes a new command:
+#### Design Considerations
 
-<puml src="diagrams/CommitActivityDiagram.puml" width="250" />
+**Aspect: How skill filtering is applied:**
 
-#### Design considerations:
+* **Alternative 1 (current choice):** Filter is applied via an inline predicate passed to `Model#updateFilteredPersonList()`.
+    * Pros: Consistent with the existing filtering pattern used elsewhere in the codebase. No new predicate class required.
+    * Cons: The predicate logic lives inside `ListCommand#execute()` rather than in a dedicated, testable class.
 
-**Aspect: How undo & redo executes:**
+* **Alternative 2:** Extract the predicate into a dedicated `SkillContainsKeywordsPredicate` class.
+    * Pros: Improves testability and separates concerns more cleanly.
+    * Cons: Adds an extra class for relatively simple logic.
 
-* **Alternative 1 (current choice):** Saves the entire address book.
-  * Pros: Easy to implement.
-  * Cons: May have performance issues in terms of memory usage.
+**Aspect: How multiple skill filters are combined:**
 
-* **Alternative 2:** Individual command knows how to undo/redo by
-  itself.
-  * Pros: Will use less memory (e.g. for `delete`, just save the person being deleted).
-  * Cons: We must ensure that the implementation of each individual command are correct.
+* **Alternative 1 (current choice):** Multiple `s/` prefixes are combined with OR logic — persons matching any of the specified skill levels are shown.
+    * Pros: Intuitive for listing a broad selection (e.g. beginners and experts together).
+    * Cons: AND logic (intersection) is not supported.
+
+* **Alternative 2:** Multiple `s/` prefixes are combined with AND logic.
+    * Pros: Useful if a person can hold multiple skill levels simultaneously.
+    * Cons: Since each person has exactly one skill level, AND logic across different values would always return an empty list, making it unintuitive and unhelpful.
 
 _{more aspects and alternatives to be added}_
 
