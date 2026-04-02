@@ -62,7 +62,7 @@ public class ListCommand extends Command {
         } else {
             model.updateFilteredPersonList(person ->
                     skills.stream().anyMatch(skill ->
-                            person.getSkill().value.equalsIgnoreCase(skill.value)));
+                            person.getSkill().equals(skill)));
             String skillNames = skills.stream()
                     .map(s -> s.value)
                     .reduce((x, y)-> x + ", " + y).get();
