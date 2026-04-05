@@ -561,7 +561,7 @@ Priorities: High (must have) - `* * *`, Medium (nice to have) - `* *`, Low (unli
 
 * **Timeslot**: A field in a client which represents the timeslot allocated for training by the trainer
 
-* **Session**: Time between opening PTcoach and closing it
+* **Session**: Period between opening PTcoach and closing it
 
 *{More to be added}*
 
