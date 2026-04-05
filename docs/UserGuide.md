@@ -133,6 +133,7 @@ Format: `add n/NAME p/PHONE_NUMBER e/EMAIL a/ADDRESS ts/TIMESLOT t/TRAINING_GOAL
 * Represents the client’s training progress as a percentage (e.g. `50%`, `100%`)
 * Accepts integers from `0 to 100`
 * Must be a whole number with % appended at the end (e.g. 0%, 50%)
+* Cannot be blank if provided
 * This field is optional
 
 **Injury Status (`i/`):**
