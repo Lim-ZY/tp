@@ -1,0 +1,44 @@
+@startuml
+skinparam shadowing false
+hide footbox
+
+title Sequence Diagram: Navigate Up Arrow
+
+actor User
+participant ":CommandBox" as CommandBox
+participant ":CommandHistory" as CommandHistory
+participant ":TextField" as TextField
+
+User -> CommandBox : Presses "UP" key
+activate CommandBox
+
+CommandBox -> CommandBox : handleNavigate(KeyEvent)
+activate CommandBox
+
+CommandBox -> CommandHistory : navigateUp()
+activate CommandHistory
+
+alt history is empty
+    CommandHistory --> CommandBox : ""
+else current index <= 0
+    CommandHistory --> CommandBox : commandHistory.get(0)
+else normal navigation
+    CommandHistory -> CommandHistory : current = max(0, current - 1)
+    CommandHistory --> CommandBox : commandHistory.get(current)
+end
+deactivate CommandHistory
+
+CommandBox -> TextField : setText(commandFromHistory)
+activate TextField
+TextField --> CommandBox
+deactivate TextField
+
+CommandBox -> TextField : positionCaret(length)
+activate TextField
+TextField --> CommandBox
+deactivate TextField
+
+deactivate CommandBox
+deactivate CommandBox
+
+@enduml

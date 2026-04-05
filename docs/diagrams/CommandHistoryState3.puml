@@ -1,0 +1,12 @@
+                            @startuml
+                            !include style.puml
+                            show member
+                            hide empty member
+                            title "Initial State"
+                            Object "<u>:CommandBox" as CommandBox
+                            Object "<u>:CommandHistory" as CommandHistory {
+                                commandHistory = ["add n/John Doe p/98765432 e/johnd@example.com \na/John street, block 123, #01-01\n t/Run 50km ts/mon:1,2", "list", "edit 1 n/Bob", "edit 1 n/Bob Tan"]
+                                current = 4
+                            }
+                            CommandBox -- CommandHistory
+                            @enduml

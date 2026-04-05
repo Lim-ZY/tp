@@ -181,6 +181,18 @@ Step 3. The user presses `Up` key, to retrieve back the past submitted command.
 
 <puml src="diagrams/CommandHistoryState2.puml" alt="CommandHistoryState2" />
 
+Step 4. The user resubmits a new command (`edit 1 n/Bob Tan`).
+
+The following sequence diagram shows the relation between `CommandHistory` and `CommandBox`
+
+<puml src="diagrams/CommandHistorySequenceDiagram.puml" alt="CommandHistorySequenceDiagram" />
+
+The following activity diagram summarizes what happens when users want to navigate the command history of their current session.
+
+<puml src="diagrams/CommandHistoryActivityDiagram.puml" alt="CommandHistoryActivityDiagram" />
+
+
+
 ### \[Proposed\] Undo/redo feature
 
 #### Proposed Implementation

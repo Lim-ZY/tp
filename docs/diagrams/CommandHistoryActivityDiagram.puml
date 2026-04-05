@@ -1,0 +1,41 @@
+@startuml
+skinparam monochrome true
+skinparam shadowing false
+
+title Activity Diagram: Command History Navigation (Up/Down)
+
+start
+:User presses a key in TextField;
+
+if () then ([KeyCode is UP or DOWN])
+    if () then ([KeyCode == UP])
+        :Invoke commandHistory.navigateUp();
+        if () then ([history empty])
+            :Return "";
+        else ([else])
+            if () then ([current <= 0])
+                :Return commandHistory.get(0);
+            else ([else])
+                :current = max(0, current - 1);
+                :Return commandHistory.get(current);
+            endif
+        endif
+    else ([KeyCode == DOWN])
+        :Invoke commandHistory.navigateDown();
+        :historySize = commandHistory.size();
+        :current = min(historySize, current + 1);
+        if () then ([current == historySize])
+            :Return "";
+        else ([else])
+            :Return commandHistory.get(current);
+        endif
+    endif
+    :Update TextField with returned string;
+    :Position caret at end of text;
+    :Request focus for TextField;
+else ([else])
+    :Ignore key for navigation;
+endif
+
+stop
+@enduml
