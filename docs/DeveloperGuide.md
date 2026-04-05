@@ -549,7 +549,7 @@ Priorities: High (must have) - `* * *`, Medium (nice to have) - `* *`, Low (unli
   - Name  
   - Contact Number  
   - Address   
-  - Timeslot
+  - Timeslots
   - Training Goals  
   - Skill Level*  
   - Progress Record*  
@@ -565,7 +565,13 @@ Priorities: High (must have) - `* * *`, Medium (nice to have) - `* *`, Low (unli
 
 * **Duplicate clients**: 2 Clients with the same phone number
 
-* **Timeslot**: A field in a client which represents the timeslot allocated for training by the trainer
+* **Timeslots**: A field in a client which represents the timeslot allocated for training by the trainer
+  - Consists of a list of `Timeslot` where each `Timeslot` consists of:
+    - Day (represented in `Day` enumeration): 3 letter case-insensitive abbreviation (mon, tue, wed, thu, fri, sat, sun)
+    - Slots (represented in `Slot` enumeration): in 24-hour format (HHMM-HHMM) from 0800 to 2000 **(start-end)** OR slot numbers (from 1 to 12) **(slotNumber)**
+      - Minutes field must be '00' (e.g. 0800, 1400)
+      - Each slot represents a single hour block, with 12 slots in total (i.e. Slot 1 - 0800-0900, Slot 12 - 1900-2000)
+  - Each timeslot can be concatenated in this format: `day:start-end` OR `day:slotNumber`, where multiple slots in a day can be comma separated.
 
 *{More to be added}*
 
