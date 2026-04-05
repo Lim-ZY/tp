@@ -288,11 +288,11 @@ Format: `exit`
 
 PTcoach saves to disk automatically every time a command runs. There is no need to save manually. 
 
-The live data reside in `data/addressbook.json` relative to the folder holding the `.jar` file you launched.
+The live data reside in `[JAR file location]/data/addressbook.json`.
 
 ### Editing the data file
 
-Advanced users are welcome to update data directly by editing `data/addressbook.json`.
+Advanced users are welcome to update data directly by editing `[JAR file location]/data/addressbook.json`.
 
 <box type="warning" seamless>
 **Caution:**
