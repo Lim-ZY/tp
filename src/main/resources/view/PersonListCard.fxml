@@ -3,12 +3,12 @@
 <?import javafx.geometry.Insets?>
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.layout.ColumnConstraints?>
-<?import javafx.scene.layout.FlowPane?>
 <?import javafx.scene.layout.GridPane?>
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.Region?>
 <?import javafx.scene.layout.VBox?>
 
+<?import javafx.scene.control.ScrollPane?>
 <HBox id="cardPane" fx:id="cardPane" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1">
   <GridPane HBox.hgrow="ALWAYS">
     <columnConstraints>
@@ -33,7 +33,6 @@
         <Label fx:id="skill" styleClass="skill_tag_label" text="\$skill" />
       </HBox>
 
-      <FlowPane fx:id="tags" />
       <VBox spacing="4">
         <Label fx:id="phone" styleClass="cell_small_label" text="\$phone" />
         <Label fx:id="address" styleClass="cell_small_label" text="\$address" />
@@ -46,7 +45,10 @@
         </VBox.margin>
       </Region>
 
-      <FlowPane fx:id="timeslots" hgap="5" vgap="5" />
+      <ScrollPane vbarPolicy="NEVER" hbarPolicy="AS_NEEDED" fitToHeight="true" styleClass="hover-scroll"
+                  style="-fx-background-color: transparent; -fx-background: transparent;">
+        <HBox fx:id="timeslots" spacing="5" />
+      </ScrollPane>
 
       <VBox spacing="4">
         <Label fx:id="trainingGoal" styleClass="trainingGoal_label" text="\$trainingGoal" wrapText="true" />
