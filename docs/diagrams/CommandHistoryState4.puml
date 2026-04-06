@@ -6,7 +6,7 @@ skinparam ClassBackgroundColor #FFFFAA
 
 show member
 hide empty member
-title "Final State"
+title "After multiple Up key press"
 Class "<u>:CommandBox" as CommandBox
 Class "<u>:CommandHistory" as CommandHistory {
     commandHistory = [\n\t"<b>help</b>",\n\t"list", \n\t"list s/advancd",\n\t"list s/advanced"]

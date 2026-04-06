@@ -21,7 +21,7 @@ if () then ([KeyCode is UP or DOWN])
         endif
     else ([KeyCode is DOWN])
         if () then ([at the latest executed command])
-            :Return "";
+            :Return empty string;
         else ([else])
             :Return next command;
         endif
