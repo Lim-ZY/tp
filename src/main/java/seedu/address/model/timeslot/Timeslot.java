@@ -78,6 +78,12 @@ public class Timeslot implements Comparable<Timeslot> {
         return true;
     }
 
+    /**
+     * Returns true if a given string is a valid slot and is unique in {@code existingSlots}.
+     *
+     * @param slot String.
+     * @param existingSlots Set of slots to be tested against for uniqueness.
+     */
     public static boolean isValidAndUniqueSlot(String slot, Set<Slot> existingSlots) {
         // slot is in HHMM format
         if (slot.contains("-")) {
