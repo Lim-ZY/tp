@@ -67,26 +67,38 @@ public class Timeslot implements Comparable<Timeslot> {
         }
 
         String[] parts = test.split(":");
-        Set<Slot> slots = new TreeSet<>();
         String[] slotParts = parts[1].split(",");
-        for (String slot : slotParts) {
-            if (slot.contains("-")) {
-                String[] times = slot.split("-");
-                int startTime = Integer.parseInt(times[0]);
-                int endTime = Integer.parseInt(times[1]);
+        Set<Slot> slots = new TreeSet<>();
 
-                if (startTime >= endTime) {
-                    return false;
-                }
-            }
-            try {
-                if (!slots.add(Slot.toSlot(slot))) {
-                    return false;
-                }
-            } catch (IllegalArgumentException e) {
-                // catch time ranges more than an hour
+        for (String slot : slotParts) {
+            if (!isValidAndUniqueSlot(slot, slots)) {
                 return false;
             }
+        }
+        return true;
+    }
+
+    public static boolean isValidAndUniqueSlot(String slot, Set<Slot> existingSlots) {
+        // slot is in HHMM format
+        if (slot.contains("-")) {
+            String[] times = slot.split("-");
+            int startTime = Integer.parseInt(times[0]);
+            int endTime = Integer.parseInt(times[1]);
+
+            if (startTime >= endTime) {
+                return false;
+            }
+        }
+
+        // convert slot to Enum Slot and check uniqueness
+        try {
+            Slot newSlot = Slot.toSlot(slot);
+            if (!existingSlots.add(newSlot)) {
+                return false;
+            }
+        } catch (IllegalArgumentException e) {
+            // catch time ranges more than an hour
+            return false;
         }
         return true;
     }
