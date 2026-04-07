@@ -26,7 +26,7 @@ We are a team based in the [School of Computing, National University of Singapor
 
 &nbsp;
 
-[GitHub: :fab-github:](http://github.com/momentumnn)
+[GitHub: :fab-github:](https://github.com/momentumnn)
 
 * Role: Code quality
 * Responsibilities: Storage
@@ -48,7 +48,7 @@ We are a team based in the [School of Computing, National University of Singapor
 
 &nbsp;
 
-[GitHub: :fab-github:](http://github.com/jolyntmj)
+[GitHub: :fab-github:](https://github.com/jolyntmj)
 
 * Role: Team lead
 * Responsibilities: Coordinate project milestones, manage team progress, and ensure smooth collaboration and code quality across the team.
@@ -59,7 +59,7 @@ We are a team based in the [School of Computing, National University of Singapor
 
 &nbsp;
 
-[GitHub: :fab-github:](http://github.com/lim-zy)
+[GitHub: :fab-github:](https://github.com/lim-zy)
 
 * Role: Integration
 * Responsibilities: In charge of versioning of the code, integrating various parts of the software to create a whole.
