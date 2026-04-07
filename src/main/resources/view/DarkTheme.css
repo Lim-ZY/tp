@@ -405,3 +405,14 @@
     -fx-font-family: "Segoe UI Semibold";
     -fx-text-fill: white;
 }
+
+.hover-scroll .scroll-bar:horizontal {
+    -fx-background-color: transparent;
+    -fx-opacity: 0;
+    -fx-pref-height: 10;
+}
+
+.hover-scroll:hover .scroll-bar:horizontal {
+    -fx-opacity: 1;
+    -fx-pref-height: 10;
+}

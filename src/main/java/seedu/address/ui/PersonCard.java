@@ -2,7 +2,6 @@ package seedu.address.ui;
 
 import javafx.fxml.FXML;
 import javafx.scene.control.Label;
-import javafx.scene.layout.FlowPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.Region;
 import seedu.address.model.person.Person;
@@ -36,7 +35,7 @@ public class PersonCard extends UiPart<Region> {
     @FXML
     private Label address;
     @FXML
-    private FlowPane timeslots;
+    private HBox timeslots;
     @FXML
     private Label trainingGoal;
     @FXML
@@ -55,12 +54,13 @@ public class PersonCard extends UiPart<Region> {
         super(FXML);
         this.person = person;
         id.setText(displayedIndex + ". ");
-        name.setText(person.getName().fullName);
+        String fullName = person.getName().fullName;
+        name.setText(fullName.length() > 50 ? fullName.substring(0, 50) + "..." : fullName);
         phone.setText(person.getPhone().value);
         address.setText(person.getAddress().value);
         trainingGoal.setText("Goal: " + person.getTrainingGoal().value);
         email.setText(person.getEmail().value);
-        injuryStatus.setText(person.getInjuryStatus().value);
+        injuryStatus.setText("Injury Status: " + person.getInjuryStatus().value);
         progressRecord.setText("Progress: " + person.getProgressRecord().value);
         person.getTimeslots().stream().sorted()
                 .forEach(timeslot -> {

@@ -21,21 +21,42 @@ public class NameTest {
 
     @Test
     public void isValidName() {
-        // null name
+        // EP: Null values
         assertThrows(NullPointerException.class, () -> Name.isValidName(null));
 
-        // invalid name
+        // EP: Empty Strings
         assertFalse(Name.isValidName("")); // empty string
         assertFalse(Name.isValidName(" ")); // spaces only
-        assertFalse(Name.isValidName("^")); // only non-alphanumeric characters
-        assertFalse(Name.isValidName("peter*")); // contains non-alphanumeric characters
 
-        // valid name
+        // EP: Contains invalid symbols
+        assertFalse(Name.isValidName("^")); // non-alphabetic character
+        assertFalse(Name.isValidName("peter*")); // contains symbol
+
+        // EP: Contains numbers
+        assertFalse(Name.isValidName("12345")); // numbers only (no longer valid)
+        assertFalse(Name.isValidName("peter the 2nd")); // contains number
+
+        // EP: Starts with valid symbols
+        assertFalse(Name.isValidName("-John")); // starts with hyphen
+        assertFalse(Name.isValidName("'John")); // starts with apostrophe
+        assertFalse(Name.isValidName(" John")); // starts with space
+
+        // EP: Max length
+        assertFalse(Name.isValidName("A".repeat(101))); // 101 characters (too long)
+
+        // EP: Valid length
+        assertTrue(Name.isValidName("a".repeat(100))); // exactly 100 characters (boundary)
+        assertTrue(Name.isValidName("a")); // exactly 1 character (boundary)
+
+        // EP: Valid names
         assertTrue(Name.isValidName("peter jack")); // alphabets only
-        assertTrue(Name.isValidName("12345")); // numbers only
-        assertTrue(Name.isValidName("peter the 2nd")); // alphanumeric characters
         assertTrue(Name.isValidName("Capital Tan")); // with capital letters
-        assertTrue(Name.isValidName("David Roger Jackson Ray Jr 2nd")); // long names
+        assertTrue(Name.isValidName("David Roger Jackson Ray")); // long name
+
+        // EP: Valid names with special characters
+        assertTrue(Name.isValidName("Mary-Jane")); // hyphenated name
+        assertTrue(Name.isValidName("O'Brien")); // apostrophe name
+        assertTrue(Name.isValidName("José")); // accented characters
     }
 
     @Test

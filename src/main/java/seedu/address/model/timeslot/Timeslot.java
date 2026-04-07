@@ -15,14 +15,14 @@ import java.util.TreeSet;
  */
 public class Timeslot implements Comparable<Timeslot> {
     public static final String MESSAGE_CONSTRAINTS = "Timeslot should be in the format "
-            + "day:start-end OR day:slotNumber separated by semicolons with no spaces.\n"
+            + "day:start-end OR day:slotNumber separated by semicolons.\n"
             + "Example: mon:0900-1000,1200-1300;tue:9;wed:7\n"
             + "- Days (must be unique): 3-letter abbreviation (mon, tue, wed, thu, fri, sat, sun) case-insensitive.\n"
             + "- Times (must be unique): "
             + "in 24-hour format (HHMM-HHMM) from 0800 to 2000 OR slot numbers (from 1 to 12).\n"
             + "- Hourly Boundaries: If using HHMM-HHMM, times must start and end exactly on the hour. "
             + "The minutes field must be '00' (e.g., 0800, 1400).\n"
-            + "- Multiple timings in a day must be separated by commas.\n"
+            + "- Multiple timings in a day must be separated by commas with no whitespaces in between timings.\n"
             + "- It cannot be left completely empty.";
     /*
      * Regex breakdown:
@@ -67,26 +67,53 @@ public class Timeslot implements Comparable<Timeslot> {
         }
 
         String[] parts = test.split(":");
-        Set<Slot> slots = new TreeSet<>();
         String[] slotParts = parts[1].split(",");
-        for (String slot : slotParts) {
-            if (slot.contains("-")) {
-                String[] times = slot.split("-");
-                int startTime = Integer.parseInt(times[0]);
-                int endTime = Integer.parseInt(times[1]);
+        Set<Slot> slots = new TreeSet<>();
 
-                if (startTime >= endTime) {
-                    return false;
-                }
-            }
-            try {
-                if (!slots.add(Slot.toSlot(slot))) {
-                    return false;
-                }
-            } catch (IllegalArgumentException e) {
-                // catch time ranges more than an hour
+        for (String slot : slotParts) {
+            if (!isValidSlot(slot)) {
                 return false;
             }
+            if (!isUniqueSlot(slot, slots)) {
+                return false;
+            }
+        }
+        return true;
+    }
+
+    /**
+     * Returns true if a given string is a valid slot.
+     *
+     * @param slot String.
+     */
+    public static boolean isValidSlot(String slot) {
+        if (slot.contains("-")) {
+            String[] times = slot.split("-");
+            int startTime = Integer.parseInt(times[0]);
+            int endTime = Integer.parseInt(times[1]);
+
+            if (startTime >= endTime) {
+                return false;
+            }
+        }
+        return true;
+    }
+
+    /**
+     * Returns true if a given string is unique in {@code existingSlots}.
+     *
+     * @param slot String.
+     * @param existingSlots Set of slots to be tested against for uniqueness.
+     */
+    public static boolean isUniqueSlot(String slot, Set<Slot> existingSlots) {
+        try {
+            Slot newSlot = Slot.toSlot(slot);
+            if (!existingSlots.add(newSlot)) {
+                return false;
+            }
+        } catch (IllegalArgumentException e) {
+            // catch time ranges more than an hour
+            return false;
         }
         return true;
     }

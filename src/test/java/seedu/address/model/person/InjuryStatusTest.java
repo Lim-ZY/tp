@@ -44,7 +44,7 @@ public class InjuryStatusTest {
         assertTrue(InjuryStatus.isValidInjuryStatus("shoulder dislocation (left)")); // with parentheses
         assertTrue(InjuryStatus.isValidInjuryStatus("runner's knee")); // with apostrophe
         assertTrue(InjuryStatus.isValidInjuryStatus("sprain/strain")); // three+ letters before slash allowed
-        assertTrue(InjuryStatus.isValidInjuryStatus("Unknown")); // default value
+        assertTrue(InjuryStatus.isValidInjuryStatus("Healthy")); // default value
     }
 
     @Test

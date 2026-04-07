@@ -4,7 +4,7 @@
   pageNav: 3
 ---
 
-# PTCoach Developer Guide
+# PTcoach Developer Guide
 
 <!-- * Table of Contents -->
 <page-nav-print />
@@ -78,6 +78,7 @@ The `UI` component uses the JavaFx UI framework. The layout of these UI parts ar
 The `UI` component,
 
 * executes user commands using the `Logic` component.
+* holds a list of past commands executed using the `CommmandHistory` component within CommandBox. (e.g 1:`add n/John Doe p/98765432 e/johnd@example.com a/John street, block 123, #01-01 t/Run 50km ts/mon:1,2 i/Shoulder dislocation`, 2:`list`.
 * listens for changes to `Model` data so that the UI can be updated with the modified data.
 * keeps a reference to the `Logic` component, because the `UI` relies on the `Logic` to execute commands.
 * depends on some classes in the `Model` component, as it displays `Person` object residing in the `Model`.
@@ -118,7 +119,7 @@ How the parsing works:
 ### Model component
 **API** : [`Model.java`](https://github.com/AY2526S2-CS2103-F11-3/tp/blob/adeac153baec54c71d4b9987fab4a5888dec6290/src/main/java/seedu/address/model/Model.java)
 
-<puml src="diagrams/ModelClassDiagram.puml" width="450" />
+<puml src="diagrams/ModelClassDiagram.puml" width="800" />
 
 
 The `Model` component,
@@ -130,9 +131,9 @@ The `Model` component,
 
 <box type="info" seamless>
 
-**Note:** An alternative (arguably, a more OOP) model is given below. It has a `Tag` list in the `AddressBook`, which `Person` references. This allows `AddressBook` to only require one `Tag` object per unique tag, instead of each `Person` needing their own `Tag` objects.<br>
+**Note:** An alternative (arguably, a more OOP) model is given below.
 
-<puml src="diagrams/BetterModelClassDiagram.puml" width="450" />
+<puml src="diagrams/BetterModelClassDiagram.puml" width="780" />
 
 </box>
 
@@ -158,103 +159,168 @@ Classes used by multiple components are in the `seedu.address.commons` package.
 
 This section describes some noteworthy details on how certain features are implemented.
 
-### \[Proposed\] Undo/redo feature
 
-#### Proposed Implementation
 
-The proposed undo/redo mechanism is facilitated by `VersionedAddressBook`. It extends `AddressBook` with an undo/redo history, stored internally as an `addressBookStateList` and `currentStatePointer`. Additionally, it implements the following operations:
 
-* `VersionedAddressBook#commit()` — Saves the current address book state in its history.
-* `VersionedAddressBook#undo()` — Restores the previous address book state from its history.
-* `VersionedAddressBook#redo()` — Restores a previously undone address book state from its history.
+### Command History Navigation
 
-These operations are exposed in the `Model` interface as `Model#commitAddressBook()`, `Model#undoAddressBook()` and `Model#redoAddressBook()` respectively.
+#### Implementation
 
-Given below is an example usage scenario and how the undo/redo mechanism behaves at each step.
+The Command History navigation is facilitated by `CommandHistory`. It is a class on its own and is stored as a singleton within `CommandBox`. Additionally, it implements the following operations:
+* `CommandHistory#navigateUp()` -- Navigates to the previous command in the history
+* `CommandHistory#navigateDown()` -- Navigates to the next command in the history
+* `CommandHistory#addCommand()` -- Adds a command to the history and resets the navigation pointer to the end of the list.
 
-Step 1. The user launches the application for the first time. The `VersionedAddressBook` will be initialized with the initial address book state, and the `currentStatePointer` pointing to that single address book state.
+Given below is an example usage scenario and how the command history navigation works at each step.
 
-<puml src="diagrams/UndoRedoState0.puml" alt="UndoRedoState0" />
+Step 1. The user launches the application. For the purpose of this example, assume the address book is empty.
 
-Step 2. The user executes `delete 5` command to delete the 5th person in the address book. The `delete` command calls `Model#commitAddressBook()`, causing the modified state of the address book after the `delete 5` command executes to be saved in the `addressBookStateList`, and the `currentStatePointer` is shifted to the newly inserted address book state.
+<puml src="diagrams/CommandHistoryState0.puml" alt="CommandHistoryState0" />
 
-<puml src="diagrams/UndoRedoState1.puml" alt="UndoRedoState1" />
+Step 2. The user enters 3 commands in order: `help`, `list`, `list s/advancd`,
+<puml src="diagrams/CommandHistoryState1.puml" alt="CommandHistoryState1" />
 
-Step 3. The user executes `add n/David …​` to add a new person. The `add` command also calls `Model#commitAddressBook()`, causing another modified address book state to be saved into the `addressBookStateList`.
+Step 3. The user presses `Up` key, to retrieve back the past submitted command (`list s/advancd`).
 
-<puml src="diagrams/UndoRedoState2.puml" alt="UndoRedoState2" />
+<puml src="diagrams/CommandHistoryState2.puml" alt="CommandHistoryState2" />
 
-<box type="info" seamless>
+Step 4. The user resubmits a new command (`list s/advanced`).
 
-**Note:** If a command fails its execution, it will not call `Model#commitAddressBook()`, so the address book state will not be saved into the `addressBookStateList`.
+<puml src="diagrams/CommandHistoryState3.puml" alt="CommandHistoryState3" />
 
-</box>
 
-Step 4. The user now decides that adding the person was a mistake, and decides to undo that action by executing the `undo` command. The `undo` command will call `Model#undoAddressBook()`, which will shift the `currentStatePointer` once to the left, pointing it to the previous address book state, and restores the address book to that state.
+The following sequence diagram shows the relation between `CommandHistory` and `CommandBox`
 
-<puml src="diagrams/UndoRedoState3.puml" alt="UndoRedoState3" />
-
+<puml src="diagrams/CommandHistorySequenceDiagram.puml" alt="CommandHistorySequenceDiagram" />
 
 <box type="info" seamless>
 
-**Note:** If the `currentStatePointer` is at index 0, pointing to the initial AddressBook state, then there are no previous AddressBook states to restore. The `undo` command uses `Model#canUndoAddressBook()` to check if this is the case. If so, it will return an error to the user rather
-than attempting to perform the undo.
+**Note:** The `[` at the start of the alt conditions are due to PlantUML limitations, please ignore the symbol.
 
 </box>
 
-The following sequence diagram shows how an undo operation goes through the `Logic` component:
+Similarly, navigate down works the opposite of navigate up, going forwards in the command history.
 
-<puml src="diagrams/UndoSequenceDiagram-Logic.puml" alt="UndoSequenceDiagram-Logic" />
+Step 5. The user wants to find the list command, but overshoots it by an extra key press, leading it to `help`.
+
+<puml src="diagrams/CommandHistoryState4.puml" alt="CommandHistoryState4" />
+
+Step 6. The user presses `Down` key once, and `list` is shown in the Command text field.
+
+<puml src="diagrams/CommandHistoryState5.puml" alt="CommandHistoryState5" />
+
+Step 7. After executing the command, `list` is appended to the command history and current is updated to the size of `Command History`
+<puml src="diagrams/CommandHistoryState6.puml" alt="CommandHistoryState6" />
+
+The following activity diagram summarizes what happens when users want to navigate the command history of their current session.
+
+<puml src="diagrams/CommandHistoryActivityDiagram.puml" alt="CommandHistoryActivityDiagram" />
+
+
+
+### Filter by Skill Feature
+#### Implementation
+
+The filter by skill mechanism is facilitated by an updated `ListCommand` and `ListCommandParser`.
+The `list` command now accepts one or more optional `s/` prefixes, each specifying a skill level
+to filter by. The following skill levels are supported: `Beginner`, `Intermediate`, and `Expert`
+(case-insensitive).
+
+Given below is an example usage scenario and how the filter by skill mechanism behaves at each step.
+
+Step 1. The user launches the application. For the purpose of this example, assume the address
+book contains the following 3 persons:
+
+* `Alex` with skill level `Beginner`
+* `Betty` with skill level `Intermediate`
+* `Charlie` with skill level `Expert`
 
 <box type="info" seamless>
 
-**Note:** The lifeline for `UndoCommand` should end at the destroy marker (X) but due to a limitation of PlantUML, the lifeline reaches the end of diagram.
+**Note:** The diagrams below only show fields relevant to the filter by skill feature. For the
+full list of attributes and relationships in each class, refer to the information above.
 
 </box>
 
-Similarly, how an undo operation goes through the `Model` component is shown below:
+<puml src="diagrams/FilterSkillState0.puml" alt="FilterSkillState0" />
 
-<puml src="diagrams/UndoSequenceDiagram-Model.puml" alt="UndoSequenceDiagram-Model" />
+Step 2. The user executes `list s/expert`. `ListCommandParser` parses the input and returns a `ListCommand` containing `Expert` as the skill filter. `ListCommand#execute()` calls `Model#updateFilteredPersonList()` with a predicate that matches only persons with the `Expert` skill level. Only `Charlie` is shown, and the result message reflects 1 entry found.
 
-The `redo` command does the opposite — it calls `Model#redoAddressBook()`, which shifts the `currentStatePointer` once to the right, pointing to the previously undone state, and restores the address book to that state.
+<puml src="diagrams/FilterSkillState1.puml" alt="FilterSkillState1" />
+
+Step 3. The user executes `list s/beginner s/expert`. `ListCommandParser` collects both values
+and returns a `ListCommand` containing both skill levels. The predicate matches persons whose
+skill level is either `Beginner` or `Expert`. `Alex` and `Charlie` are shown, and the result
+message reflects 2 entries found.
+
+<puml src="diagrams/FilterSkillState2.puml" alt="FilterSkillState2" />
 
 <box type="info" seamless>
 
-**Note:** If the `currentStatePointer` is at index `addressBookStateList.size() - 1`, pointing to the latest address book state, then there are no undone AddressBook states to restore. The `redo` command uses `Model#canRedoAddressBook()` to check if this is the case. If so, it will return an error to the user rather than attempting to perform the redo.
+**Note:** Skill level matching is case-insensitive. `s/expert`, `s/EXPERT`, and `s/Expert` all
+produce the same result.
 
 </box>
 
-Step 5. The user then decides to execute the command `list`. Commands that do not modify the address book, such as `list`, will usually not call `Model#commitAddressBook()`, `Model#undoAddressBook()` or `Model#redoAddressBook()`. Thus, the `addressBookStateList` remains unchanged.
+Step 4. The user executes `list` with no `s/` prefix. `ListCommandParser` returns an unfiltered
+`ListCommand`. `ListCommand#execute()` calls `Model#updateFilteredPersonList()` with
+`PREDICATE_SHOW_ALL_PERSONS`, restoring the full list. All 3 persons are shown.
 
-<puml src="diagrams/UndoRedoState4.puml" alt="UndoRedoState4" />
+<puml src="diagrams/FilterSkillState3.puml" alt="FilterSkillState3" />
 
-Step 6. The user executes `clear`, which calls `Model#commitAddressBook()`. Since the `currentStatePointer` is not pointing at the end of the `addressBookStateList`, all address book states after the `currentStatePointer` will be purged. Reason: It no longer makes sense to redo the `add n/David …​` command. This is the behavior that most modern desktop applications follow.
+<box type="info" seamless>
 
-<puml src="diagrams/UndoRedoState5.puml" alt="UndoRedoState5" />
+**Note:** The `list` command does not modify the address book state and will not call
+`Model#commitAddressBook()`. The `addressBookStateList` remains unchanged after any `list` command.
 
-The following activity diagram summarizes what happens when a user executes a new command:
+</box>
 
-<puml src="diagrams/CommitActivityDiagram.puml" width="250" />
+Step 5. The user executes `list s/advanced`. Since `advanced` is not a valid skill level,
+`ListCommandParser` throws a `ParseException` and the filtered list is not updated.
 
-#### Design considerations:
+The following sequence diagram shows how a `list s/expert` operation goes through the `Logic`
+component:
 
-**Aspect: How undo & redo executes:**
+<puml src="diagrams/FilterSkillSequenceDiagram-Logic.puml" alt="FilterSkillSequenceDiagram-Logic" />
 
-* **Alternative 1 (current choice):** Saves the entire address book.
-  * Pros: Easy to implement.
-  * Cons: May have performance issues in terms of memory usage.
+<box type="info" seamless>
 
-* **Alternative 2:** Individual command knows how to undo/redo by
-  itself.
-  * Pros: Will use less memory (e.g. for `delete`, just save the person being deleted).
-  * Cons: We must ensure that the implementation of each individual command are correct.
+**Note:** The lifeline for `ListCommandParser` should end at the destroy marker (X) but due to a
+limitation of PlantUML, the lifeline reaches the end of diagram.
+
+</box>
+
+Similarly, how the operation goes through the `Model` component is shown below:
+
+<puml src="diagrams/FilterSkillSequenceDiagram-Model.puml" alt="FilterSkillSequenceDiagram-Model" />
+
+The following activity diagram summarizes what happens when a user executes a `list` command:
+
+<puml src="diagrams/FilterSkillActivityDiagram.puml" width="700"/>
+
+#### Design Considerations
+
+**Aspect: How skill filtering is applied:**
+
+* **Alternative 1 (current choice):** Filter is applied via an inline predicate passed to `Model#updateFilteredPersonList()`.
+    * Pros: Consistent with the existing filtering pattern used elsewhere in the codebase. No new predicate class required.
+    * Cons: The predicate logic lives inside `ListCommand#execute()` rather than in a dedicated, testable class.
+
+* **Alternative 2:** Extract the predicate into a dedicated `SkillContainsKeywordsPredicate` class.
+    * Pros: Improves testability and separates concerns more cleanly.
+    * Cons: Adds an extra class for relatively simple logic.
+
+**Aspect: How multiple skill filters are combined:**
+
+* **Alternative 1 (current choice):** Multiple `s/` prefixes are combined with OR logic — persons matching any of the specified skill levels are shown.
+    * Pros: Intuitive for listing a broad selection (e.g. beginners and experts together).
+    * Cons: AND logic (intersection) is not supported.
+
+* **Alternative 2:** Multiple `s/` prefixes are combined with AND logic.
+    * Pros: Useful if a person can hold multiple skill levels simultaneously.
+    * Cons: Since each person has exactly one skill level, AND logic across different values would always return an empty list, making it unintuitive and unhelpful.
 
 _{more aspects and alternatives to be added}_
-
-### \[Proposed\] Data archiving
-
-_{Explain here how the data archiving feature will be implemented}_
-
 
 --------------------------------------------------------------------------------------------------------------------
 
@@ -309,31 +375,31 @@ Priorities: High (must have) - `* * *`, Medium (nice to have) - `* *`, Low (unli
 
 ### Use cases
 
-(For all use cases below, the **Actor** is the `Trainer` and the **System** is the `PTCoach`, unless specified otherwise)
+(For all use cases below, the **Actor** is the `Trainer` and the **System** is the `PTcoach`, unless specified otherwise)
 
 **Use case: UC1 - Add a client**
 
 **MSS**
 
 1. Trainer requests to add a client.
-2. PTCoach shows a success message.
+2. PTcoach shows a success message.
 
     Use case ends.
 
 **Extensions**
 * 1a. The given details are invalid.
-  * 1a1. PTCoach shows an error message.
-    
+  * 1a1. PTcoach shows an error message.
+
     Use case ends.
-  
+
 * 1b. The given client exists.
-  * 1b1. PTCoach shows an error message.
+  * 1b1. PTcoach shows an error message.
 
     Use case ends.
 
 * 1c. The given command has an incorrect format.
-  * 1c1. PTCoach shows an error message.
-  
+  * 1c1. PTcoach shows an error message.
+
     Use case ends.
 
 **Use case: UC2 - Find a specific client**
@@ -341,19 +407,19 @@ Priorities: High (must have) - `* * *`, Medium (nice to have) - `* *`, Low (unli
 **MSS**
 
 1. User requests to find a specific clients.
-2. PTCoach shows list of all clients that match the person(s).
+2. PTcoach shows list of all clients that match the person(s).
 
    Use case ends.
 
 **Extensions**
 
 * 1a. Trainer searches for an invalid name.
-  * 1a1. PTCoach shows an error message.
+  * 1a1. PTcoach shows an error message.
     
     Use case ends.
 
 * 1b. The given command has an incorrect format.
-  * 1b1. PTCoach shows an error message.
+  * 1b1. PTcoach shows an error message.
   
     Use case ends.
         
@@ -366,29 +432,29 @@ Priorities: High (must have) - `* * *`, Medium (nice to have) - `* *`, Low (unli
 **MSS**
 
 1. Trainer requests to edit a specific client.
-2. PTCoach shows a success message.
+2. PTcoach shows a success message.
 
     Use case ends.
 
 **Extensions**
 
 * 1a. Invalid index
-  * 1a1. PTCoach shows an error message.
+  * 1a1. PTcoach shows an error message.
   
     Use case ends.
   
 * 1b. Has missing parameters
-  * 1b1. PTCoach shows an error message.
+  * 1b1. PTcoach shows an error message.
         
     Use case ends.
 
 * 1c. No changes found
-  * 1c1. PTCoach shows a success message.
+  * 1c1. PTcoach shows a success message.
 
     Use case ends.
 
 * 1d. Incorrect format.
-  * 1d1. PTCoach shows an error message.
+  * 1d1. PTcoach shows an error message.
 
     Use case ends.
 
@@ -397,25 +463,25 @@ Priorities: High (must have) - `* * *`, Medium (nice to have) - `* *`, Low (unli
 **MSS**
 
 1. User requests to delete a specific client by index.
-2. PTCoach deletes the client.
-3. PTCoach shows a success message confirming the deletion.
+2. PTcoach deletes the client.
+3. PTcoach shows a success message confirming the deletion.
 
    Use case ends
 
 **Extensions**
 
 * 1a. The list is empty.
-  * 1a1. PTCoach shows an error message.
+  * 1a1. PTcoach shows an error message.
 
     Use case ends.
 
 * 1b. The client does not exist.
-  * 1b1. PTCoach shows an error message.
+  * 1b1. PTcoach shows an error message.
 
     Use case ends.
 
 * 1c. The given command is in an incorrect format.
-  * 1c1. PTCoach shows an error message.
+  * 1c1. PTcoach shows an error message.
    
     Use case ends.
 
@@ -424,7 +490,7 @@ Priorities: High (must have) - `* * *`, Medium (nice to have) - `* *`, Low (unli
 **MSS**
 
 1. User requests to launch the app via command line.
-2. PTCoach launches.
+2. PTcoach launches.
 
    Use case ends.
 
@@ -439,57 +505,56 @@ Priorities: High (must have) - `* * *`, Medium (nice to have) - `* *`, Low (unli
 **MSS**
 
 1. Trainer requests to view clients (optionally filtered by skill).
-2. PTCoach shows a list of all clients.
-3. PTCoach shows a list of clients matching the request.
+2. PTcoach shows a list of all clients.
+3. PTcoach shows a list of clients matching the request.
 
    Use case ends.
 
 **Extensions**
 
 * 1a. The given command is in an incorrect format.
-  * 1a1. PTCoach shows an error message.
+  * 1a1. PTcoach shows an error message.
    
     Use case ends.
 
 * 2a. The list is empty.
-  * 2a1. PTCoach shows a message indicating that the list is empty.
+  * 2a1. PTcoach shows a message indicating that the list is empty.
    
     Use case ends.
 
 * 3a. No clients match the filter. 
-  * 3a1. PTCoach shows an empty list. 
+  * 3a1. PTcoach shows an empty list. 
   
     Use case ends.
   
 * 3b. Missing filter parameter
-  * 3b1. PTCoach shows a message indicating that the parameter is empty.
+  * 3b1. PTcoach shows a message indicating that the parameter is empty.
   
     Use case ends.
-
 
 **Use case: UC7 - Read client details**
 
 **MSS**
 
 1. Trainer requests to view a client’s details.
-2. PTCoach displays the requested client data.
+2. PTcoach displays the requested client data.
 
    Use case ends
 
 **Extensions**
 
 * 1a. The given details are invalid.
-  * 1a1. PTCoach shows an error message.
+  * 1a1. PTcoach shows an error message.
    
     Use case ends.
 
 * 1b. Client does not exist
-  * 1b1. PTCoach shows an error message.
+  * 1b1. PTcoach shows an error message.
 
     Use case ends
   
 * 1c. Trainer enters incorrect command format.
-  * 1c1. PTCoach shows an error message.
+  * 1c1. PTcoach shows an error message.
      
     Use case ends.
 
@@ -498,24 +563,24 @@ Priorities: High (must have) - `* * *`, Medium (nice to have) - `* *`, Low (unli
 **MSS**
 
 1. Trainer presses the Up or Down arrow key.
-2. PTCoach displays the corresponding command from the command history.
+2. PTcoach displays the corresponding command from the command history.
 
     Use case ends.
 
 **Extensions**
 
 * 1a. There are no previously entered commands.  
-  * 1a1. PTCoach does not display any command.
+  * 1a1. PTcoach does not display any command.
   
   Use case ends.  
 
 * 1b. Trainer presses Up when already at the oldest command.
-  * 1b1. PTCoach keeps displaying the oldest command. 
+  * 1b1. PTcoach keeps displaying the oldest command. 
   
   Use case ends. 
 
 * 1c. Trainer presses Down when already at the most recent command.
-  * 1c1. PTCoach displays an empty input field.
+  * 1c1. PTcoach displays an empty input field.
   
   Use case ends.
 
@@ -533,6 +598,7 @@ Priorities: High (must have) - `* * *`, Medium (nice to have) - `* *`, Low (unli
 7.  Should only be closed using the “exit” command or window close button or by killing the process.
 8.  Command input should not exceed 500 words.
 9.  Should only be opened through the command line.
+10. The command history will only be saved per session and reset after the session ends.
 
 *{More to be added}*
 
@@ -542,7 +608,7 @@ Priorities: High (must have) - `* * *`, Medium (nice to have) - `* *`, Low (unli
   - Name  
   - Contact Number  
   - Address   
-  - Timeslot
+  - Timeslots
   - Training Goals  
   - Skill Level*  
   - Progress Record*  
@@ -558,7 +624,15 @@ Priorities: High (must have) - `* * *`, Medium (nice to have) - `* *`, Low (unli
 
 * **Duplicate clients**: 2 Clients with the same phone number
 
-* **Timeslot**: A field in a client which represents the timeslot allocated for training by the trainer
+* **Timeslots**: A field in a client which represents the timeslot allocated for training by the trainer
+  - Consists of a list of `Timeslot` where each `Timeslot` consists of:
+    - Day (represented in `Day` enumeration): 3 letter case-insensitive abbreviation (mon, tue, wed, thu, fri, sat, sun)
+    - Slots (represented in `Slot` enumeration): in 24-hour format (HHMM-HHMM) from 0800 to 2000 **(start-end)** OR slot numbers (from 1 to 12) **(slotNumber)**
+      - Minutes field must be '00' (e.g. 0800, 1400)
+      - Each slot represents a single hour block, with 12 slots in total (i.e. Slot 1 - 0800-0900, Slot 12 - 1900-2000)
+  - Each timeslot can be concatenated in this format: `day:start-end` OR `day:slotNumber`, where multiple slots in a day can be comma separated.
+
+* **Session**: Period between opening PTcoach and closing it
 
 *{More to be added}*
 
@@ -632,7 +706,7 @@ testers are expected to do more *exploratory* testing.
 5. Adding a person with missing compulsory fields
 
    1. Test case: `add n/John Doe p/98765432 e/johnd@example.com a/John street t/Run 50km`<br>
-          Expected: No person is added. An error message is shown because the timeslot is missing.
+      Expected: No person is added. An error message is shown because the timeslot is missing.
 
    2. Test case: `add n/John Doe p/98765432 e/johnd@example.com a/John street ts/mon:1,2`<br>
       Expected: No person is added. An error message is shown because the training goal is missing.
@@ -644,6 +718,8 @@ testers are expected to do more *exploratory* testing.
    1. Test case: `list`<br>
       Expected: All persons in the address book are shown.
 
+&nbsp;
+
 2. Listing persons by skill filter 
 
    1. Prerequisites: There are persons with different skill levels in the list.
@@ -654,7 +730,7 @@ testers are expected to do more *exploratory* testing.
    3. Test case: `list s/expert`<br>
       Expected: Only persons with skill level `Expert` are shown.
    
-   4. Test case: `list s/beginner s/intermediate`
+   4. Test case: `list s/beginner s/intermediate`<br>
       Expected: Only persons with skill level `Beginner` and `Intermediate` are shown.
 
 3. Listing persons with no matching filter
@@ -662,18 +738,19 @@ testers are expected to do more *exploratory* testing.
    1. Test case: `list s/beginner` when there are no beginner clients<br>
       Expected: An empty list is shown.
 
-4. Listing persons with invalid filter
+&nbsp;
 
-   1. Test case: `list s/advanced`
-      Expected: The command is accepted but no client has the skill level `Advanced`. Hence, an empty list is shown.
-   
-   2. Test case: `list s/beginer`
-      Expected: The command is accepted but no client has the skill level `beginer`. Hence, an empty list is shown. (note the beginer here has a typo error)
+4. Listing persons with an invalid filter
+
+   1. Test case: `list s/advanced`<br>
+      Expected: The command does not execute and an error message is shown because the skill is invalid.
+
+&nbsp;
 
 5. Listing persons with missing filter parameter
 
-   1. Test case: `list s/`
-      Expected: An error message is shown because the skill filter is blank.
+   1. Test case: `list s/`<br>
+      Expected: The command does not execute and an error message is shown because the skill filter is blank.
 
 ### Editing a person
 
@@ -688,6 +765,8 @@ testers are expected to do more *exploratory* testing.
 
    1. Test case: `edit 1 e/johndoe@example.com t/Lift 100kg ts/fri:2,3 pr/70 s/intermediate`<br>
       Expected: The specified fields of the 1st person are updated. A success message is shown.
+
+&nbsp;
 
 3. Editing a person with invalid index
    
@@ -754,6 +833,8 @@ testers are expected to do more *exploratory* testing.
 
     1. Test case: `help`<br>
        Expected: The help message appears.
+
+&nbsp;
 
 2. Help with extra parameters
 

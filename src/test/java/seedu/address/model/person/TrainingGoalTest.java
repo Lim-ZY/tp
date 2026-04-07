@@ -17,8 +17,11 @@ public class TrainingGoalTest {
 
     @Test
     public void constructor_invalidTrainingGoal_throwsIllegalArgumentException() {
+        // EP: empty Strings
         assertThrows(IllegalArgumentException.class, () -> new TrainingGoal(""));
         assertThrows(IllegalArgumentException.class, () -> new TrainingGoal("   "));
+
+        // EP: flag-like patterns
         assertThrows(IllegalArgumentException.class, () -> new TrainingGoal("x/something"));
         assertThrows(IllegalArgumentException.class, () -> new TrainingGoal("ab/something"));
         assertThrows(IllegalArgumentException.class, () -> new TrainingGoal("run 50km x/weekly"));
@@ -26,20 +29,32 @@ public class TrainingGoalTest {
 
     @Test
     public void isValidTrainingGoal() {
-        // null
+        // EP: null values
         assertThrows(NullPointerException.class, () -> TrainingGoal.isValidTrainingGoal(null));
 
-        // invalid training goals
+        // EP: empty Strings
         assertFalse(TrainingGoal.isValidTrainingGoal("")); // empty string
         assertFalse(TrainingGoal.isValidTrainingGoal(" ")); // spaces only
+
+        // EP: flag-like patterns
         assertFalse(TrainingGoal.isValidTrainingGoal("x/something")); // single letter flag-like pattern
         assertFalse(TrainingGoal.isValidTrainingGoal("ab/something")); // two letter flag-like pattern
         assertFalse(TrainingGoal.isValidTrainingGoal("run 50km x/weekly")); // flag-like pattern in middle
 
-        // valid training goals
-        assertTrue(TrainingGoal.isValidTrainingGoal("a")); // single character
+        // EP: valid length
+        assertTrue(TrainingGoal.isValidTrainingGoal("a".repeat(200))); // exactly 200 characters (max boundary)
+        assertTrue(TrainingGoal.isValidTrainingGoal("a")); // 1 character (min boundary)
+
+        // EP: invalid length
+        assertFalse(TrainingGoal.isValidTrainingGoal("a".repeat(201))); // 201 characters (too long)
+
+        // EP: training goal with alphanumeric
         assertTrue(TrainingGoal.isValidTrainingGoal("run 50km")); // typical goal
+
+        // EP: training goal with alphanumeric and symbols
         assertTrue(TrainingGoal.isValidTrainingGoal("lift 100kg (bench press)")); // with symbols
+
+        // EP: training goal with alphanumeric and semi-flag-like pattern
         assertTrue(TrainingGoal.isValidTrainingGoal("run 5k/day")); // number + letters before slash allowed
         assertTrue(TrainingGoal.isValidTrainingGoal("run 50/100km")); // numbers before slash allowed
     }
