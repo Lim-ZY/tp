@@ -47,14 +47,6 @@ PTcoach is a **desktop app for managing client contacts, optimized for use via a
 
 <box type="info" seamless>
 
-### Command History Navigation
-
-PTCoach supports command history navigation similar to Unix command-line systems.
-
-* Press the **Up** arrow key to view previously entered commands.
-* Press the **Down** arrow key to move towards more recent commands.
-* This allows users to quickly reuse or edit past commands without retyping them.
-
 **Notes about the command format:**<br>
 
 * Words in `UPPER_CASE` are the parameters to be supplied by the user.<br>
@@ -315,6 +307,14 @@ If the data file contains invalid entries, PTcoach will ignore those invalid ent
 - If you edit the data file while PTcoach is **running**, your changes will not appear in the app immediately and may not be preserved, because the app can overwrite the file when it saves data. Always close PTcoach before editing the data file manually.
 </box>
 
+### Command History Navigation
+
+PTCoach supports command history navigation similar to Unix command-line systems.
+
+* Press the **Up** arrow key to view previously entered commands.
+* Press the **Down** arrow key to move towards more recent commands.
+* This allows users to quickly reuse or edit past commands without retyping them.
+
 --------------------------------------------------------------------------------------------------------------------
 
 ## FAQ
@@ -328,7 +328,7 @@ If the data file contains invalid entries, PTcoach will ignore those invalid ent
 ## Known issues
 
 1. **When using multiple screens**, if you move the application to a secondary screen, and later switch to using only the primary screen, the GUI will open off-screen. The remedy is to delete the `preferences.json` file created by the application before running the application again.
-2. **If you minimize the Help Window** and then run the `help` command (or use the `Help` menu, or the keyboard shortcut `F1`) again, the original Help Window will remain minimized, and no new Help Window will appear. The remedy is to manually restore the minimized Help Window.
+2. **If you minimize the Help Window** and then run the `help` command again, the original Help Window will remain minimized, and no new Help Window will appear. The remedy is to manually restore the minimized Help Window.
 
 --------------------------------------------------------------------------------------------------------------------
 

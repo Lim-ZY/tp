@@ -670,7 +670,7 @@ testers are expected to do more *exploratory* testing.
    3. Test case: `list s/expert`<br>
       Expected: Only persons with skill level `Expert` are shown.
    
-   4. Test case: `list s/beginner s/intermediate`
+   4. Test case: `list s/beginner s/intermediate`<br>
       Expected: Only persons with skill level `Beginner` and `Intermediate` are shown.
 
 3. Listing persons with no matching filter
@@ -678,15 +678,15 @@ testers are expected to do more *exploratory* testing.
    1. Test case: `list s/beginner` when there are no beginner clients<br>
       Expected: An empty list is shown.
 
-4. Listing persons with invalid filter
+4. Listing persons with an invalid filter
 
-   1. Test case: `list s/advanced`
-      Expected: The command doesn't execute and an error message is shown because the skill is invalid.
+   1. Test case: `list s/advanced`<br>
+      Expected: The command does not execute and an error message is shown because the skill is invalid.
 
 5. Listing persons with missing filter parameter
 
-   1. Test case: `list s/`
-      Expected: An error message is shown because the skill filter is blank.
+   1. Test case: `list s/`<br>
+      Expected: The command does not execute and an error message is shown because the skill filter is blank.
 
 ### Editing a person
 
