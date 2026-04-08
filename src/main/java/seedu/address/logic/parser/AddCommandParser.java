@@ -53,15 +53,15 @@ public class AddCommandParser implements Parser<AddCommand> {
                 PREFIX_EMAIL, PREFIX_ADDRESS, PREFIX_TRAINING_GOAL, PREFIX_TIMESLOT,
                 PREFIX_SKILL, PREFIX_PROGRESS_RECORD, PREFIX_INJURY_STATUS);
 
-        Name name = getName(argMultimap);
-        Phone phone = getPhone(argMultimap);
-        Email email = getEmail(argMultimap);
-        Address address = getAddress(argMultimap);
-        InjuryStatus injuryStatus = getInjuryStatus(argMultimap);
-        TrainingGoal trainingGoal = getTrainingGoal(argMultimap);
-        Set<Timeslot> timeslots = getTimeslots(argMultimap);
-        Skill skill = getSkill(argMultimap);
-        ProgressRecord progressRecord = getProgressRecord(argMultimap);
+        Name name = parseName(argMultimap);
+        Phone phone = parsePhone(argMultimap);
+        Email email = parseEmail(argMultimap);
+        Address address = parseAddress(argMultimap);
+        InjuryStatus injuryStatus = parseInjuryStatus(argMultimap);
+        TrainingGoal trainingGoal = parseTrainingGoal(argMultimap);
+        Set<Timeslot> timeslots = parseTimeslots(argMultimap);
+        Skill skill = parseSkill(argMultimap);
+        ProgressRecord progressRecord = parseProgressRecord(argMultimap);
 
         Person person = new Person(name, phone, email, address, injuryStatus,
             trainingGoal, timeslots, progressRecord, skill);
@@ -76,7 +76,7 @@ public class AddCommandParser implements Parser<AddCommand> {
      * @return The Name object parsed from the value associated with the PREFIX_NAME.
      * @throws ParseException If the name value is invalid or missing.
      */
-    private Name getName(ArgumentMultimap argMultimap) throws ParseException {
+    private Name parseName(ArgumentMultimap argMultimap) throws ParseException {
         return ParserUtil.parseName(argMultimap.getValue(PREFIX_NAME).get());
     }
 
@@ -87,7 +87,7 @@ public class AddCommandParser implements Parser<AddCommand> {
      * @return The Phone object parsed from the value associated with the PREFIX_PHONE.
      * @throws ParseException If the phone value is invalid or missing.
      */
-    private Phone getPhone(ArgumentMultimap argMultimap) throws ParseException {
+    private Phone parsePhone(ArgumentMultimap argMultimap) throws ParseException {
         return ParserUtil.parsePhone(argMultimap.getValue(PREFIX_PHONE).get());
     }
 
@@ -98,7 +98,7 @@ public class AddCommandParser implements Parser<AddCommand> {
      * @return The Email object parsed from the value associated with the PREFIX_EMAIL.
      * @throws ParseException If the email value is invalid or missing.
      */
-    private Email getEmail(ArgumentMultimap argMultimap) throws ParseException {
+    private Email parseEmail(ArgumentMultimap argMultimap) throws ParseException {
         return ParserUtil.parseEmail(argMultimap.getValue(PREFIX_EMAIL).get());
     }
 
@@ -109,7 +109,7 @@ public class AddCommandParser implements Parser<AddCommand> {
      * @return The Address object parsed from the value associated with the PREFIX_ADDRESS.
      * @throws ParseException If the address value is invalid or missing.
      */
-    private Address getAddress(ArgumentMultimap argMultimap) throws ParseException {
+    private Address parseAddress(ArgumentMultimap argMultimap) throws ParseException {
         return ParserUtil.parseAddress(argMultimap.getValue(PREFIX_ADDRESS).get());
     }
 
@@ -122,7 +122,7 @@ public class AddCommandParser implements Parser<AddCommand> {
      *         or the default injury status if the prefix is absent.
      * @throws ParseException If the injury status value is present but invalid.
      */
-    private InjuryStatus getInjuryStatus(ArgumentMultimap argMultimap) throws ParseException {
+    private InjuryStatus parseInjuryStatus(ArgumentMultimap argMultimap) throws ParseException {
         return ParserUtil.parseInjuryStatus(argMultimap.getValue(PREFIX_INJURY_STATUS)
                 .orElse(InjuryStatus.DEFAULT_INJURY_STATUS));
     }
@@ -134,7 +134,7 @@ public class AddCommandParser implements Parser<AddCommand> {
      * @return The TrainingGoal object parsed from the value associated with the PREFIX_TRAINING_GOAL.
      * @throws ParseException If the training goal value is invalid or missing.
      */
-    private TrainingGoal getTrainingGoal(ArgumentMultimap argMultimap) throws ParseException {
+    private TrainingGoal parseTrainingGoal(ArgumentMultimap argMultimap) throws ParseException {
         return ParserUtil.parseTrainingGoal(argMultimap.getValue(PREFIX_TRAINING_GOAL).get());
     }
 
@@ -145,7 +145,7 @@ public class AddCommandParser implements Parser<AddCommand> {
      * @return A Set of Timeslot objects parsed from all values associated with the PREFIX_TIMESLOT.
      * @throws ParseException If any of the timeslot values are invalid.
      */
-    private Set<Timeslot> getTimeslots(ArgumentMultimap argMultimap) throws ParseException {
+    private Set<Timeslot> parseTimeslots(ArgumentMultimap argMultimap) throws ParseException {
         return ParserUtil.parseTimeslots(argMultimap.getAllValues(PREFIX_TIMESLOT));
     }
 
@@ -158,7 +158,7 @@ public class AddCommandParser implements Parser<AddCommand> {
      *         or the default skill if the prefix is absent.
      * @throws ParseException If the skill value is present but invalid.
      */
-    private Skill getSkill(ArgumentMultimap argMultimap) throws ParseException {
+    private Skill parseSkill(ArgumentMultimap argMultimap) throws ParseException {
         return ParserUtil.parseSkill(argMultimap.getValue(PREFIX_SKILL));
     }
 
@@ -171,7 +171,7 @@ public class AddCommandParser implements Parser<AddCommand> {
      *         or the default progress record if the prefix is absent.
      * @throws ParseException If the progress record value is present but invalid.
      */
-    private ProgressRecord getProgressRecord(ArgumentMultimap argMultimap) throws ParseException {
+    private ProgressRecord parseProgressRecord(ArgumentMultimap argMultimap) throws ParseException {
         return ParserUtil.parseProgressRecord(argMultimap.getValue(PREFIX_PROGRESS_RECORD)
                 .orElse(ProgressRecord.DEFAULT_PROGRESS));
     }
