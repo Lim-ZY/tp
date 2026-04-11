@@ -9,7 +9,7 @@ hide empty member
 title "Final State"
 Class "<u>:CommandBox" as CommandBox
 Class "<u>:CommandHistory" as CommandHistory {
-    commandHistory = [\n\t"help",\n\t"list", \n\t"list s/advancd",\n\t"list s/advanced"]
+    commandHistory = [\n\t"help",\n\t"list", \n\t"list s/pr",\n\t"list s/pro"]
     current = 4
 }
 CommandBox -- CommandHistory
