@@ -40,7 +40,7 @@
       "src": "DeveloperGuide.md",
       "title": "Developer Guide",
       "headings": {
-        "ptcoach-developer-guide": "PTCoach Developer Guide",
+        "ptcoach-developer-guide": "PTcoach Developer Guide",
         "acknowledgements": "Acknowledgements",
         "setting-up-getting-started": "Setting up, getting started",
         "design": "Design",
@@ -51,8 +51,8 @@
         "storage-component": "Storage component",
         "common-classes": "Common classes",
         "implementation": "Implementation",
-        "proposed-undo-redo-feature": "[Proposed] Undo/redo feature",
-        "proposed-data-archiving": "[Proposed] Data archiving",
+        "command-history-navigation": "Command History Navigation",
+        "filter-by-skill-feature": "Filter by Skill Feature",
         "documentation-logging-testing-configuration-dev-ops": "Documentation, logging, testing, configuration, dev-ops",
         "appendix-requirements": "Appendix: Requirements",
         "product-scope": "Product scope",
@@ -68,7 +68,7 @@
         "deleting-a-person": "Deleting a person",
         "clearing-all-persons": "Clearing all persons",
         "help-command": "Help command",
-        "command-history-navigation": "Command history navigation",
+        "command-history-navigation-2": "Command history navigation",
         "saving-data": "Saving data"
       },
       "headingKeywords": {}
@@ -116,7 +116,6 @@
         "ptcoach-user-guide": "PTcoach User Guide",
         "quick-start": "Quick start",
         "features": "Features",
-        "command-history-navigation": "Command History Navigation",
         "viewing-help-help": "Viewing help : help",
         "adding-a-person-add": "Adding a person: add",
         "listing-all-persons-list": "Listing all persons : list",
@@ -127,7 +126,8 @@
         "exiting-the-program-exit": "Exiting the program : exit",
         "saving-the-data": "Saving the data",
         "editing-the-data-file": "Editing the data file",
-        "archiving-data-files-coming-in-v2-0": "Archiving data files [coming in v2.0]",
+        "logging": "Logging",
+        "command-history-navigation": "Command History Navigation",
         "faq": "FAQ",
         "known-issues": "Known issues",
         "command-summary": "Command summary"
@@ -138,23 +138,7 @@
       "src": "index.md",
       "title": "",
       "headings": {
-        "addressbook-level-3": "AddressBook Level-3"
-      },
-      "headingKeywords": {}
-    },
-    {
-      "src": "team/johndoe.md",
-      "title": "John Doe's Project Portfolio Page",
-      "headings": {
-        "project-addressbook-level-3": "Project: AddressBook Level 3"
-      },
-      "headingKeywords": {}
-    },
-    {
-      "src": "team/momentumnn.md",
-      "title": "Je-Deon's Project Portfolio Page",
-      "headings": {
-        "project-ptcoach": "Project: PTCoach"
+        "ptcoach": "PTcoach"
       },
       "headingKeywords": {}
     }
