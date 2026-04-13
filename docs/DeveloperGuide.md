@@ -512,9 +512,8 @@ Priorities: High (must have) - `* * *`, Medium (nice to have) - `* *`, Low (unli
 
 **MSS**
 
-1. Trainer requests to view clients (optionally filtered by skill).
+1. Trainer requests to view clients.
 2. PTcoach shows a list of all clients.
-3. PTcoach shows a list of clients matching the request.
 
    Use case ends.
 
@@ -530,17 +529,38 @@ Priorities: High (must have) - `* * *`, Medium (nice to have) - `* *`, Low (unli
    
     Use case ends.
 
-* 3a. No clients match the filter. 
-  * 3a1. PTcoach shows an empty list. 
-  
+**Use case: UC7 - Filter clients by skill level**
+
+**MSS**
+
+1. Trainer requests to view clients filtered by skill level.
+2. PTcoach shows a list of clients filtered by skill level.
+
+   Use case ends.
+
+**Extensions**
+
+* 1a. Missing filter parameter.
+  * 1a1. PTcoach shows a message indicating that the parameter is empty.
+
+  Use case ends.
+
+* 1b. Invalid filter parameter.
+  * 1b1. PTcoach shows an error message.
+
     Use case ends.
-  
-* 3b. Missing filter parameter
-  * 3b1. PTcoach shows a message indicating that the parameter is empty.
+
+* 1c. Duplicate filter parameters.
+  * 1c1. PTcoach shows a list of clients filtered by skill level.
+
+    Use case ends.
+
+* 2a. No clients match the filter. 
+  * 2a1. PTcoach shows an empty list. 
   
     Use case ends.
 
-**Use case: UC7 - Read client details**
+**Use case: UC8 - Read client details**
 
 **MSS**
 
@@ -566,7 +586,7 @@ Priorities: High (must have) - `* * *`, Medium (nice to have) - `* *`, Low (unli
      
     Use case ends.
 
-**Use case: UC8 - Navigate command history**
+**Use case: UC9 - Navigate command history**
 
 **MSS**
 
@@ -641,6 +661,8 @@ Priorities: High (must have) - `* * *`, Medium (nice to have) - `* *`, Low (unli
 * **Default Injury Status**: The default injury status for a client is set to `Healthy`
 
 * **Default Progress Record**: The default progress record for a client is set to `0%`
+
+* **Flag-like prefixes**: Matches strings that start with one or two alphabetic characters (A–Z, case-insensitive), followed by a forward slash `/` (i.e. `x/`, `xx/`,)
 
 --------------------------------------------------------------------------------------------------------------------
 
